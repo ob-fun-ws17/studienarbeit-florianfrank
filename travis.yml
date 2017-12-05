@@ -13,7 +13,7 @@ before_install:
 
   # Configure stack to use the system GHC installation
  - stack config set system-ghc --global true
- - export PATH=/opt/ghc/7.10.2/bin:$PATH
+ - export PATH=/opt/ghc/bin/ghc-7.8.4:$PATH
 
 # N.B. No top-level env: declaration!
 
@@ -52,7 +52,7 @@ addons:
     sources:
     - hvr-ghc
     packages:
-    - ghc-7.10.2
+    - ghc-7.8.4
 
 script:
   - stack --no-terminal --skip-ghc-check test
