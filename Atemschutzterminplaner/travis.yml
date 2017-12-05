@@ -1,26 +1,22 @@
 sudo: false
-
-# Caching so the next build will be fast too.
 cache:
   directories:
-  - $HOME/.stack
+  - $HOME/.stack/
+
+matrix:
+  include:
+    - env: CABALVER=1.22 GHCVER=8.2.1
+      addons: {apt: {packages: [cabal-install-1.22,ghc-8.2.1],sources: [hvr-ghc]}}
 
 before_install:
- # Download and unpack the stack executable
- - mkdir -p ~/.local/bin
- - export PATH=$HOME/.local/bin:$PATH
- - travis_retry curl -L https://www.stackage.org/stack/linux-x86_64 | tar xz --wildcards --strip-components=1 -C ~/.local/bin '*/stack'
+  - mkdir -p ~/.local/bin
+  - export PATH=~/.local/bin:$PATH
+  - travis_retry curl -L https://www.stackage.org/stack/linux-x86_64 | tar -xzO --wildcards '*/stack' > ~/.local/bin/stack
+  - chmod a+x ~/.local/bin/stack
 
-  # Configure stack to use the system GHC installation
- - stack config set system-ghc --global true
- - export PATH=/opt/ghc/7.10.2/bin:$PATH
-
-addons:
-  apt:
-    sources:
-    - hvr-ghc
-    packages:
-    - ghc-7.10.2
+install:
+  - stack -j 2 setup --no-terminal
+  - stack -j 2 build --only-snapshot --no-terminal
 
 script:
-  - stack --no-terminal --skip-ghc-check test
+- stack -j 2 build --no-terminal
