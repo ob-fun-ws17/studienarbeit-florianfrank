@@ -45,7 +45,7 @@ matrix:
 
 before_install:
   # ghc
-  - export PATH=/opt/ghc/$GHCVER/bin:$PATH
+ - export PATH=/opt/ghc/bin/ghc-7.8.4:$PATH
 
 addons:
   apt:
