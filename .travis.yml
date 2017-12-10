@@ -24,10 +24,10 @@ addons:
     sources:
     - hvr-ghc
     packages:
-    - cabal update
     - cabal-install-2.0
     - ghc-8.2.1
 
 script:
+  - cabal update
   - cabal install spock
   - stack --no-terminal --skip-ghc-check test
