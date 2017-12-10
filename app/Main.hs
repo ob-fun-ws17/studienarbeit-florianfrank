@@ -1,6 +1,7 @@
 module Main where
 
 import Lib
+import View
 
 main :: IO ()
-main = someFunc
+main = init_view
