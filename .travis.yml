@@ -21,6 +21,7 @@ addons:
     sources:
     - hvr-ghc
     packages:
+    - cabal-install-2.0.0.0
     - ghc-8.2.1
 
 script:
