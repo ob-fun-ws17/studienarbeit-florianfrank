@@ -17,8 +17,8 @@ import qualified Data.Text as T
 data MySession = EmptySession
 data MyAppState = DummyAppState (IORef Int)
 
-main :: IO ()
-main =
+init_view :: IO ()
+init_view =
     do ref <- newIORef 0
        spockCfg <- defaultSpockCfg EmptySession PCNoDatabase (DummyAppState ref)
        runSpock 8080 (spock spockCfg app)
@@ -31,3 +31,13 @@ app :: SpockM () MySession MyAppState ()
 app =
       do get root $
              blaze $ viewHome
+         {-get "/home" $
+            blaze $ viewHome
+         get "/membermanagement" $
+            blaze $ viewMemberManagement
+        get "/appointmentmanagement" $
+            blaze $ viewAppointments
+        get "/logout" $
+            blaze $ viewLogout
+        get "/impressum" $
+            blaze $ viewImpressum-}

@@ -1,7 +1,8 @@
 module Main where
 
-import Lib
-import View
+import Web.View
+
+import System.Environment
 
 main :: IO ()
 main = init_view
