@@ -10,6 +10,7 @@ copyright:           2017 Author name here
 category:            Web
 build-type:          Simple
 extra-source-files:  README.md
+                    ,static/css/login.css
 cabal-version:       >=1.10
 
 -- To avoid duplicated efforts in documentation and dealing with the
@@ -22,6 +23,10 @@ library
   exposed-modules:     Lib
                       ,Web.View
                       ,Web.Views.Home
+                      ,Web.Views.AppointmentManagement
+                      ,Web.Views.MemberManagement
+                      ,Web.Views.Impressum
+                      ,Web.Views.Logout
   build-depends:       base >= 4.7 && < 5
                       , Spock >=0.11
                       , mtl
