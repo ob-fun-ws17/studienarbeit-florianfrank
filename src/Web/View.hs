@@ -2,6 +2,11 @@
 module Web.View where
 
 import Web.Views.Home
+import Web.Views.AppointmentManagement
+import Web.Views.MemberManagement
+import Web.Views.Impressum
+import Web.Views.Logout
+
 import Web.Spock
 import Web.Spock.Config
 import Web.Spock hiding (SessionId)
@@ -29,15 +34,16 @@ blaze = lazyBytes . renderHtml
 
 app :: SpockM () MySession MyAppState ()
 app =
-      do get root $
-             blaze $ viewHome
-         {-get "/home" $
+    do middleware (staticPolicy (addBase "static"))
+       get root $
             blaze $ viewHome
-         get "/membermanagement" $
+       get "/home" $
+            blaze $ viewHome
+       get "/membermanagement" $
             blaze $ viewMemberManagement
-        get "/appointmentmanagement" $
+       get "/appointmentmanagement" $
             blaze $ viewAppointments
-        get "/logout" $
+       get "/logout" $
             blaze $ viewLogout
-        get "/impressum" $
-            blaze $ viewImpressum-}
+       get "/impressum" $
+            blaze $ viewImpressum

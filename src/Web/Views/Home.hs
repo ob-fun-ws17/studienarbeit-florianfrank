@@ -18,7 +18,7 @@ getMenuBarHeader = docTypeHtml $ do
 
 getMenuBarBody :: H.Html
 getMenuBarBody =
-       H.div ! A.class_  "mdl-layout mdl-js-layout mdl-layout--fixed-drawer" $
+    H.div ! A.class_  "mdl-layout mdl-js-layout mdl-layout--fixed-drawer" $
         H.div ! A.class_ "mdl-layout__drawer" $ do
             H.p $ do
                 H.span ! A.class_ "mdl-layout-title" $  "   Atemschutzplaner"
@@ -49,7 +49,7 @@ viewHome = docTypeHtml $ do
                 H.input ! A.type_ "email"
                 H.span ! A.class_ "highlight" $ ""
                 H.span ! A.class_ "bar" $ ""
-                H.label "Name"
+                H.label "Passwort"
             H.button ! A.type_ "button" ! A.class_ "button buttonBlue" $ "Subscribe"
             H.div $ do
                 H.div ! A.class_ "ripples buttonRipples" $ do
