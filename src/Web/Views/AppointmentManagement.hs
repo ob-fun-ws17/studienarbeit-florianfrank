@@ -13,4 +13,5 @@ viewAppointments = docTypeHtml $ do
         H.head $ do
             getMenuBarHeader
         H.body $ do
-            getMenuBarBody
+            H.div ! A.class_  "mdl-layout mdl-js-layout mdl-layout--fixed-drawer" $ do
+                getMenuBarBody
