@@ -4,32 +4,32 @@ import Data.List
 import Data.String
 
 
-type Day = Int
-type Month = Int
-type Year = Int
-type Date = (Day, Month, Year)
+type Day                        = Int
+type Month                      = Int
+type Year                       = Int
+type Date                       = (Day, Month, Year)
 
-type FirstName = String
-type SurName = String
-type Birthday = Date
-type NextExamationAppointment = Date
-type InstructionCheck = Bool
-type ExerciseCheck = Bool
+type FirstName                  = String
+type SurName                    = String
+type Birthday                   = Date
+type NextExamationAppointment   = Date
+type InstructionCheck           = Bool
+type ExerciseCheck              = Bool
 
-type Member = ( FirstName
-              , SurName
-              , Birthday
-              , NextExamationAppointment
-              , InstructionCheck
-              , ExerciseCheck
-              )
+type Member =                 ( FirstName
+                              , SurName
+                              , Birthday
+                              , NextExamationAppointment
+                              , InstructionCheck
+                              , ExerciseCheck
+                              )
 
 
 testMembers :: [Member]
 testMembers =
     [
     ("Max",   "Mustermann", (1, 2, 1978),  (12,9,2018),  False, True),
-    ("Peter", "Lustig",     (1, 12, 1989), (6,10,2019), True, True)
+    ("Peter", "Lustig",     (1, 12, 1989), (6,10,2019),  True,  True)
     ]
 
 getFirstName :: Member -> String
@@ -61,13 +61,14 @@ getExerciseCheckStr (_, _, _, _, _, x) =
 dateToString :: Date -> String
 dateToString (d, m, y) = str where
                     day  =
-                        if (d < 10) then
+                        if d < 10 then
                             "0" ++ show d
                         else
-                            " " ++ show d
+                             show d
                     month =
-                        if (m < 10) then
-                            "0" ++ show d
+                        if m < 10 then
+                            "0" ++ show m
                         else
-                            " " ++ show d
+                            show m
+
                     str = day ++ "." ++ month ++ "." ++ show y
