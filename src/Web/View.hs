@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Web.View where
 
+import Model.Member
 import Web.Views.Home
 import Web.Views.AppointmentManagement
 import Web.Views.MemberManagement
@@ -40,7 +41,7 @@ app =
        get "/home" $
             blaze $ viewHome
        get "/membermanagement" $
-            blaze $ viewMemberManagement
+            blaze $ viewMemberManagement testMembers
        get "/appointmentmanagement" $
             blaze $ viewAppointments
        get "/logout" $

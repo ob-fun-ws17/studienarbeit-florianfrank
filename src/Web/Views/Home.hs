@@ -18,16 +18,15 @@ getMenuBarHeader = docTypeHtml $ do
 
 getMenuBarBody :: H.Html
 getMenuBarBody =
-    H.div ! A.class_  "mdl-layout mdl-js-layout mdl-layout--fixed-drawer" $
-        H.div ! A.class_ "mdl-layout__drawer" $ do
-            H.p $ do
-                H.span ! A.class_ "mdl-layout-title" $  "   Atemschutzplaner"
-                H.nav ! A.class_ "mdl-navigation" $ do
-                    H.a ! A.class_ "mdl-navigation__link"  ! A.href "/home" $ "Home"
-                    H.a ! A.class_ "mdl-navigation__link" ! A.href "/membermanagement" $ "Mitgliederverwaltung"
-                    H.a ! A.class_ "mdl-navigation__link" ! A.href "/appointmentmanagement" $ "Terminverwaltung"
-                    H.a ! A.class_ "mdl-navigation__link" ! A.href "/impressum" $ "Impressum"
-                    H.a ! A.class_ "mdl-navigation__link" ! A.href "logout" $ "Logout"
+    H.div ! A.class_ "mdl-layout__drawer" $ do
+        H.p $ do
+            H.span ! A.class_ "mdl-layout-title" $  "   Atemschutzplaner"
+            H.nav ! A.class_ "mdl-navigation" $ do
+                H.a ! A.class_ "mdl-navigation__link"  ! A.href "/home" $ "Home"
+                H.a ! A.class_ "mdl-navigation__link" ! A.href "/membermanagement" $ "Mitgliederverwaltung"
+                H.a ! A.class_ "mdl-navigation__link" ! A.href "/appointmentmanagement" $ "Terminverwaltung"
+                H.a ! A.class_ "mdl-navigation__link" ! A.href "/impressum" $ "Impressum"
+                H.a ! A.class_ "mdl-navigation__link" ! A.href "logout" $ "Logout"
 
 viewHome :: H.Html
 viewHome = docTypeHtml $ do
@@ -35,22 +34,23 @@ viewHome = docTypeHtml $ do
         getMenuBarHeader
         H.link ! A.rel "stylesheet" ! A.href "/css/login.css"
     H.body $ do
-        getMenuBarBody
-        H.hgroup $ do
-            H.h1 "Login Atemschutzplaner"
-            H.h3 "by Florian Frank"
-        H.form $ do
-            H.div ! A.class_ "group" $ do
-                H.input ! A.type_ "text"
-                H.span ! A.class_ "highlight" $ ""
-                H.span ! A.class_ "bar" $ ""
-                H.label "Name"
-            H.div ! A.class_ "group" $ do
-                H.input ! A.type_ "email"
-                H.span ! A.class_ "highlight" $ ""
-                H.span ! A.class_ "bar" $ ""
-                H.label "Passwort"
-            H.button ! A.type_ "button" ! A.class_ "button buttonBlue" $ "Subscribe"
-            H.div $ do
-                H.div ! A.class_ "ripples buttonRipples" $ do
-                    H.span ! A.class_ "ripplesCircle" $ ""
+        H.div ! A.class_  "mdl-layout mdl-js-layout mdl-layout--fixed-drawer" $ do
+            getMenuBarBody
+            H.hgroup $ do
+                H.h1 "Login Atemschutzplaner"
+                H.h3 "by Florian Frank"
+            H.form $ do
+                H.div ! A.class_ "group" $ do
+                    H.input ! A.type_ "text"
+                    H.span ! A.class_ "highlight" $ ""
+                    H.span ! A.class_ "bar" $ ""
+                    H.label "Name"
+                H.div ! A.class_ "group" $ do
+                    H.input ! A.type_ "email"
+                    H.span ! A.class_ "highlight" $ ""
+                    H.span ! A.class_ "bar" $ ""
+                    H.label "Passwort"
+                H.button ! A.type_ "button" ! A.class_ "button buttonBlue" $ "Subscribe"
+                H.div $ do
+                    H.div ! A.class_ "ripples buttonRipples" $ do
+                        H.span ! A.class_ "ripplesCircle" $ ""
