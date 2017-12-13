@@ -1,3 +1,11 @@
+#mainContent {
+  background-color: rgba(128, 128, 128, .6);
+  left: 2em;
+  padding-bottom: 5em;
+  top: 5em;
+  z-index: 2;
+}
+
 body {
 	font-family: Helvetica;
 	background: #eee;
