@@ -1,8 +1,10 @@
 module Main where
 
-import Web.View
+import Control.App
 
 import System.Environment
 
 main :: IO ()
-main = init_view
+main = do
+    cfg <- parseConfig "Atemschutzplaner.cfg"
+    init_view cfg
