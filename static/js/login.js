@@ -36,8 +36,9 @@ $(window, document, undefined).ready(function() {
 
 function login(){
     var mail = document.querySelector("#mail").value;
-    var password = document.querySelector("#mail").value;
-    var obj = '{ "mail":"John", "password":"test"}'
+    var password = document.querySelector("#password").value;
+    var obj = '{ "mail":"'+mail+'", "password":"'+password+'"}'
+    alert(obj)
     var xhttp = new XMLHttpRequest();
      xhttp.open("POST", "http://localhost:8080/login", true);
      xhttp.setRequestHeader("Content-type", "application/json");

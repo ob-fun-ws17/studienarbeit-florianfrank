@@ -15,6 +15,7 @@ import Web.Views.Home
 import Web.Views.AppointmentManagement
 import Web.Views.MemberManagement
 import Web.Views.Impressum
+import Web.Views.Register
 import Web.Views.Logout
 
 import Web.Spock
@@ -22,6 +23,8 @@ import Web.Spock.Config
 import Web.Spock hiding (SessionId)
 
 import Control.Monad.Trans
+import Control.Monad.Trans.Resource
+import Control.Monad.Logger
 import Data.Monoid
 import Network.Wai.Middleware.Static
 import Text.Blaze.Html (Html, toHtml)
@@ -53,6 +56,8 @@ type SessionVal = Maybe SessionId
 type Api ctx = SpockCtxM ctx SqlBackend SessionVal State ()
 type ApiAction ctx a = SpockActionCtx ctx SqlBackend SessionVal State a
 
+type Api' = SpockM SqlBackend () () ()
+type ApiAction' a = SpockAction SqlBackend () () a
 
 share [mkPersist sqlSettings, mkMigrate "migrateAll"] [persistLowerCase|
 Login json -- The json keyword will make Persistent generate sensible ToJSON and FromJSON instances for us.
@@ -86,14 +91,29 @@ app =
             blaze $ viewLogout
        get "/impressum" $
             blaze $ viewImpressum
-        --REST SERVICE__
-        
+       get "/register" $
+            blaze $ viewRegister
+        -- REST API --
+       post "register" $ do
+            maybeLogin <- jsonBody :: ApiAction ctx (Maybe Login)
+            case maybeLogin of
+                Nothing -> errorJson 1 "Failed to parse request body as Login Data"
+                Just login -> do
+                    newId <- runSQL $ insert login
+                    json $ object ["result" .= String "success", "id" .= newId]
+
+       get ("people" <//> var) $ \email -> do
+            maybeLogin <- runSQL $ P.get email :: ApiAction ctx (Maybe Login)
+            case maybeLogin of
+                Nothing -> errorJson 2 "Email not registered"
+                Just login -> json login
 
 
-runSQL
-  :: (HasSpock m, SpockConn m ~ SqlBackend)
-  => SqlPersistT (LoggingT IO) a -> m a
-runSQL action = runQuery $ \conn -> runStdoutLoggingT $ runSqlConn action conn
+runSQL :: (HasSpock m, SpockConn m ~ SqlBackend) => SqlPersistT (NoLoggingT (ResourceT IO)) a -> m a
+runSQL action =
+    runQuery $ \conn ->
+        runResourceT $ runNoLoggingT $ runSqlConn action conn
+{-# INLINE runSQL #-}
 
 errorJson :: Int -> T.Text -> ApiAction ctx a
 errorJson code message =
