@@ -14,7 +14,12 @@ extra-source-files:  README.md
                     ,static/css/membermanagement.css
                     ,static/css/impressum.css
                     ,static/css/logout.css
+                    ,static/css/addmember.css
+                    ,static/css/jquery-ui.css
                     ,static/js/login.js
+                    ,static/js/addmember.js
+                    ,static/js/membermanagement.js
+                    ,static/js/register.js
 
 cabal-version:       >=1.10
 
@@ -26,13 +31,17 @@ description:         Please see the README on Github at <https://github.com/gith
 library
   hs-source-dirs:      src
   exposed-modules:     Model.Member
+                      ,Model.Config
+                      ,Model.RESTDatatypes
                       ,Control.App
+                      ,Control.DatabaseSrv
                       ,Web.Views.Home
                       ,Web.Views.AppointmentManagement
                       ,Web.Views.MemberManagement
                       ,Web.Views.Impressum
                       ,Web.Views.Logout
                       ,Web.Views.Register
+                      ,Web.Views.AddMember
   build-depends:       base >= 4.7 && < 5
                       , Spock >=0.11
                       , mtl

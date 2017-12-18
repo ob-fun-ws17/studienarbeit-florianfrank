@@ -11,6 +11,10 @@ viewLogout :: H.Html
 viewLogout = docTypeHtml $ do
     H.head $ do
         getMenuBarHeader
+        H.link ! A.rel "stylesheet" ! A.href "/css/logout.css"
     H.body $ do
         H.div ! A.class_  "mdl-layout mdl-js-layout mdl-layout--fixed-drawer" $ do
             getMenuBarBody
+            H.hgroup $ do
+                H.form $ do
+                    H.h3 "Sucessfully Logged out!"

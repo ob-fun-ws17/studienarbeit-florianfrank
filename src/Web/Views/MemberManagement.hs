@@ -7,29 +7,27 @@ import Text.Blaze.Html5 as H
 import Text.Blaze.Html5.Attributes as A
 import Data.List as L
 
-
-
 viewMemberManagement :: [Member] -> H.Html
 viewMemberManagement members= do
     docTypeHtml $ do
         H.head $ do
             getMenuBarHeader
             H.link ! A.rel "stylesheet" ! A.href "/css/membermanagement.css"
+            H.script ! A.src "/js/membermanagement.js" ! A.type_ "text/javascript" $ ""
             H.meta ! A.charset "UTF-8"
         H.body $ do
             H.div ! A.class_  "mdl-layout mdl-js-layout mdl-layout--fixed-drawer" $ do
                 H.hgroup $ do
                     H.form $ do
                         H.h3 "Mitglieder"
-                        H.button ! A.type_ "addButton" ! A.class_ "addButton" $ "Mitglied hinzufügen"
-                        H.button ! A.type_ "deleteButton" ! A.class_ "deleteButton" $ "Löschen"
+                        H.button ! A.type_ "button" ! A.onclick "window.location.href='/addMember'"! A.class_ "button buttonGreen" $ "Mitglied hinzufügen"
+                        H.button !A.type_ "button" ! A.onclick "deleteMember()" ! A.class_ "button buttonBlue" $ "Löschen"
                         H.table ! A.class_ "mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" $ do
                             viewTableHead
                             viewTableBody testMembers
                         H.div ! A.id "procesbar1" ! A.style "width:820px" !  A.class_ "mdl-progress mdl-js-progress mdl-progress__indeterminate" $ ""
-
-
                 getMenuBarBody
+
 
 viewTableHead :: H.Html
 viewTableHead =

@@ -34,12 +34,26 @@ $(window, document, undefined).ready(function() {
 
 });
 
-function login(){
-    var mail = document.querySelector("#mail").value;
-    var password = document.querySelector("#password").value;
-    var obj = '{ "mail":"'+mail+'", "password":"'+password+'"}'
+function addMember()
+{
+    var name = document.querySelector("#name").value;
+    var surname = document.querySelector("#surname").value;
+
+    //Birthday
+    var datepicker = document.querySelector("#datepicker").value;
+
+    var day     = datepicker.substr(0, datepicker.search("/"));
+    var month   = datepicker.substr(datepicker.search("/")+1,datepicker.lastIndexOf("/")-3);
+    var year    = datepicker.substr(datepicker.lastIndexOf("/")+1,datepicker.length);
+    var obj = '{"name":"'+name+'", "surName":"'+surname+
+                '", "birthDay":'+day+
+                ', "birthMonth":'+month+
+                ', "birthYear":'+year+
+                ', "nextExamationAppointment":'+0+
+                ', "instructionCheck":'+0+
+                ', "exerciseCheck":'+0+'}';
     var xhttp = new XMLHttpRequest();
-     xhttp.open("POST", "http://localhost:8080/login", true);
+     xhttp.open("POST", "http://localhost:8080/addMember", true);
      xhttp.setRequestHeader("Content-type", "application/json");
      var sendAlert = true;
      xhttp.onreadystatechange = function() {
@@ -48,9 +62,9 @@ function login(){
              if(response){
                  sendAlert = false;
                  if (response.search("error") != -1){
-                     alert("Login failed!");
-                 }else if(response.search("mail") != -1){
-                     alert("You are sucessfully logged in with email: "+mail);
+                     alert("Add Member failed!");
+                 }else if(response.search("success") != -1){
+                     alert("Member: (Name"+name+", Surname: "+surname+") added.");
                  }
              }
            }

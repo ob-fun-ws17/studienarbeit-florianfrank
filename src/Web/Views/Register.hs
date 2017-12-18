@@ -35,4 +35,5 @@ viewRegister = docTypeHtml $ do
                     H.span ! A.class_ "highlight" $ ""
                     H.span ! A.class_ "bar" $ ""
                     H.label "Passwort"
-                H.button ! A.type_ "button" ! A.onclick "register()"! A.class_ "button buttonBlue" $ "Register"
+                H.button ! A.type_ "button" ! A.onclick "register()" ! A.class_ "button buttonBlue" $ "Register"
+                H.button ! A.type_ "button" ! A.onclick "window.location.href='/home'" ! A.class_ "button buttonGreen" $ "Back"

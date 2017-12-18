@@ -54,4 +54,4 @@ viewHome = docTypeHtml $ do
                     H.span ! A.class_ "bar" $ ""
                     H.label "Passwort"
                 H.button ! A.type_ "button" ! A.onclick "login()"! A.class_ "button buttonBlue" $ "Login"
-                H.button ! A.type_ "button" ! A.onclick "window.location.href='/register'"! A.class_ "button buttonBlue" $ "Register"
+                H.button ! A.type_ "button" ! A.onclick "window.location.href='/register'"! A.class_ "button buttonGreen" $ "Register"
