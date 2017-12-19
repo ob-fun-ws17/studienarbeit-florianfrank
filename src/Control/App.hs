@@ -10,7 +10,6 @@
 {-# LANGUAGE TypeFamilies               #-}
 module Control.App where
 
-import Model.Member
 import Model.RESTDatatypes
 import Model.Config
 import Control.DatabaseSrv
@@ -71,8 +70,9 @@ app =
             blaze $ viewHome
        get "/home" $
             blaze $ viewHome
-       get "/membermanagement" $
-            blaze $ viewMemberManagement testMembers
+       get "/membermanagement" $ do
+           members <- runSQL $ P.selectList [] [Asc MemberName]
+           blaze $ viewMemberManagement $ members
        get "/appointmentmanagement" $
             blaze $ viewAppointments
        get "/logout" $
@@ -83,6 +83,8 @@ app =
             blaze $ viewRegister
        get "/addMember" $
             blaze $ viewAddMember
+       get "/test" $
+            text "Hallo"
         -- REST API --
        get "createTable" $
             runSQL $ runMigration migrateAll

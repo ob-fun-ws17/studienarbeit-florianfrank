@@ -40,15 +40,24 @@ function addMember()
     var surname = document.querySelector("#surname").value;
 
     //Birthday
-    var datepicker = document.querySelector("#datepicker").value;
+    var datepickerBirthD = document.querySelector("#datepickerBirthD").value;
+    var datepickerExamation = document.querySelector("#datepickerExamation").value;
 
-    var day     = datepicker.substr(0, datepicker.search("/"));
-    var month   = datepicker.substr(datepicker.search("/")+1,datepicker.lastIndexOf("/")-3);
-    var year    = datepicker.substr(datepicker.lastIndexOf("/")+1,datepicker.length);
+    var dayBirthD     = datepickerBirthD.substr(0, datepickerBirthD.search("/"));
+    var monthBirthD   = datepickerBirthD.substr(datepickerBirthD.search("/")+1,datepickerBirthD.lastIndexOf("/")-3);
+    var yearBirthD    = datepickerBirthD.substr(datepickerBirthD.lastIndexOf("/")+1,datepickerBirthD.length);
+
+    var dayExamation    = datepickerExamation.substr(0, datepickerExamation.search("/"));
+    var monthExamation   = datepickerExamation.substr(datepickerExamation.search("/")+1,datepickerExamation.lastIndexOf("/")-3);
+    var yearExamation    = datepickerExamation.substr(datepickerExamation.lastIndexOf("/")+1,datepickerExamation.length);
+
     var obj = '{"name":"'+name+'", "surName":"'+surname+
-                '", "birthDay":'+day+
-                ', "birthMonth":'+month+
-                ', "birthYear":'+year+
+                '", "birthDay":'+dayBirthD+
+                ', "birthMonth":'+monthBirthD+
+                ', "birthYear":'+yearBirthD+
+                ', "examationDay":'+dayExamation+
+                ', "examationMonth":'+monthExamation+
+                ', "examationYear":'+yearExamation+
                 ', "nextExamationAppointment":'+0+
                 ', "instructionCheck":'+0+
                 ', "exerciseCheck":'+0+'}';
@@ -62,7 +71,7 @@ function addMember()
              if(response){
                  sendAlert = false;
                  if (response.search("error") != -1){
-                     alert("Add Member failed!");
+                     alert("Add Member failed: "+response);
                  }else if(response.search("success") != -1){
                      alert("Member: (Name"+name+", Surname: "+surname+") added.");
                  }

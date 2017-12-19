@@ -15,7 +15,7 @@ extra-source-files:  README.md
                     ,static/css/impressum.css
                     ,static/css/logout.css
                     ,static/css/addmember.css
-                    ,static/css/jquery-ui.css
+                    ,static/css/jquery/jquery-ui.css
                     ,static/js/login.js
                     ,static/js/addmember.js
                     ,static/js/membermanagement.js

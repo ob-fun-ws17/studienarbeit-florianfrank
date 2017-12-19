@@ -65,6 +65,10 @@ addMember = do
             newId <- runSQL $ insert member
             json $ object ["result" .= String "success", "id" .= newId]
 
+getMembers = do
+    maybeTest <- jsonBody :: ApiAction ctx (Maybe Member)
+    members <- runSQL $ P.selectList [] [Asc MemberName]
+    json members
 
 errorJson :: Int -> T.Text -> ApiAction ctx a
 errorJson code message =

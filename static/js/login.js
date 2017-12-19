@@ -48,7 +48,7 @@ function login(){
              if(response){
                  sendAlert = false;
                  if (response.search("error") != -1){
-                     alert("Login failed!");
+                     alert("Login failed: "+response);
                  }else if(response.search("mail") != -1){
                      alert("You are sucessfully logged in with email: "+mail);
                  }
