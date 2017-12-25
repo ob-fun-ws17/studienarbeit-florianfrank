@@ -42,6 +42,7 @@ library
                       ,Web.Views.Logout
                       ,Web.Views.Register
                       ,Web.Views.AddMember
+                      ,Web.Views.AddAppointment
   build-depends:       base >= 4.7 && < 5
                       , Spock >=0.11
                       , mtl

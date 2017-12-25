@@ -20,6 +20,7 @@ import Web.Views.Impressum
 import Web.Views.Register
 import Web.Views.Logout
 import Web.Views.AddMember
+import Web.Views.AddAppointment
 
 import Web.Spock
 import Web.Spock.Config
@@ -73,8 +74,9 @@ app =
        get "/membermanagement" $ do
            members <- runSQL $ P.selectList [] [Asc MemberName]
            blaze $ viewMemberManagement $ members
-       get "/appointmentmanagement" $
-            blaze $ viewAppointments
+       get "/appointmentmanagement" $ do
+            appointments <- runSQL $ P.selectList [] [Asc AppointmentTitle]
+            blaze $ viewAppointmentManagement $ appointments
        get "/logout" $
             blaze $ viewLogout
        get "/impressum" $
@@ -83,8 +85,9 @@ app =
             blaze $ viewRegister
        get "/addMember" $
             blaze $ viewAddMember
-       get "/test" $
-            text "Hallo"
+       get "/addAppointment" $ do
+            members <- runSQL $ P.selectList [] [Asc MemberName]
+            blaze $ addAppointmentView members
         -- REST API --
        get "createTable" $
             runSQL $ runMigration migrateAll
