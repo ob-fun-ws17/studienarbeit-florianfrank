@@ -13,12 +13,14 @@ $(function () {
     }
 
     $('.left').on('click', function () {
+        alert("LEFT");
         var container = $(this).closest('.addremove-multiselect');
         moveItems($(container).find('select.multiselect.selected'), $(container).find('select.multiselect.available'));
     });
 
     $('.right').on('click', function () {
         var container = $(this).closest('.addremove-multiselect');
+        alert(container);
         moveItems($(container).find('select.multiselect.available'), $(container).find('select.multiselect.selected'));
     });
 
@@ -40,6 +42,7 @@ $(function () {
     });
 
     $('select.multiselect.available').on('dblclick keyup',function(e){
+        alert("DOUBLE");
         if(e.which == 13 || e.type == 'dblclick') {
             var container = $(this).closest('.addremove-multiselect');
             moveItems($(container).find('select.multiselect.available'), $(container).find('select.multiselect.selected'));

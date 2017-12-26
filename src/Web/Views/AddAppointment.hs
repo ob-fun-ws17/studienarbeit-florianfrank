@@ -4,12 +4,9 @@ module Web.Views.AddAppointment where
 import Web.Views.Home
 import Model.RESTDatatypes
 
-import Control.Monad (forM_)
-import Text.Blaze.XHtml5 ((!))
-import qualified Text.Blaze.Bootstrap as H
 import Text.Blaze.Html5 as H
 import Text.Blaze.Html5.Attributes as A
-import Text.Blaze.Html (Html, toHtml)
+import qualified Data.Text as T
 import           Database.Persist        hiding (get) -- To avoid a naming clash with Web.Spock.get
 import qualified Database.Persist        as P         -- We'll be using P.get later for GET /people/<id>.
 import           Database.Persist.Sqlite hiding (get)
@@ -21,9 +18,9 @@ addAppointmentView members = docTypeHtml $ do
         getMenuBarHeader
 
         H.script ! A.src "https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js" ! A.type_ "text/javascript" $ ""
+        H.script ! A.src "/js/addappointment.js" ! A.type_ "text/javascript" $ ""
         H.script ! A.src "https://code.jquery.com/jquery-1.12.4.js" ! A.type_ "text/javascript" $ ""
         H.script ! A.src "https://code.jquery.com/ui/1.12.1/jquery-ui.js" ! A.type_ "text/javascript" $ ""
-        H.script ! A.src "/js/addappointment.js" ! A.type_ "text/javascript" $ ""
         H.link ! A.rel "stylesheet" ! A.href "/css/addappointment.css"
         H.link ! A.rel "stylesheet" ! A.href  "/css/jquery/jquery-ui.css"
         H.link ! A.rel "stylesheet prefetch" ! A.href "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
@@ -74,7 +71,7 @@ addAppointmentView members = docTypeHtml $ do
                                 H.div ! A.class_ "panel panel-default" $ do
                                     H.div ! A.class_ "panel-heading" $ "Ausgewählte Mitglieder"
                                     H.div ! A.class_ "panel-body" $
-                                        H.select ! A.id "selected_select" ! A.class_ "multiselect selected form-control" ! A.size "8" ! A.multiple "multiple" $ ""
+                                        H.select ! A.id "selected-select" ! A.class_ "multiselect selected form-control" ! A.size "8" ! A.multiple "multiple" $ ""
 
                 H.button ! A.type_ "button" ! A.onclick "addAppointment()" ! A.class_ "button buttonBlue" $ "Hinzufügen"
                 H.button ! A.type_ "button" ! A.onclick "window.location.href='/appointmentmanagement'" ! A.class_ "button buttonGreen" $ "Zurück"
@@ -85,11 +82,12 @@ addMemberMultiselect member = H.tbody $ do
     addMemberMultiselect' (member)
 
 addMemberMultiselect' :: [Entity Member] -> H.Html
-addMemberMultiselect' (x: xs) =
-    H.option ! A.value toHtml (nameToString ((memberName (entityVal x)), (memberSurName (entityVal x))))
+addMemberMultiselect' (x: xs) = do
+    H.option ! A.value (stringValue (nameToString (memberName (entityVal x), memberSurName (entityVal x)))) $ (toHtml (nameToString (memberName (entityVal x), memberSurName (entityVal x))))
+    addMemberMultiselect' (xs)
 
 addMemberMultiselect' [] = H.h1 ""
 
 
-nameToString:: (String, String) -> String
-nameToString (a, b) = a ++ " " ++ b
+nameToString:: (T.Text, T.Text) -> String
+nameToString (a, b) = (show a) ++ " " ++ (show b)
