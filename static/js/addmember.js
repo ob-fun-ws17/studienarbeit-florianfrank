@@ -43,13 +43,25 @@ function addMember()
     var datepickerBirthD = document.querySelector("#datepickerBirthD").value;
     var datepickerExamation = document.querySelector("#datepickerExamation").value;
 
-    var dayBirthD     = datepickerBirthD.substr(0, datepickerBirthD.search("/"));
-    var monthBirthD   = datepickerBirthD.substr(datepickerBirthD.search("/")+1,datepickerBirthD.lastIndexOf("/")-3);
+    var monthBirthD     = datepickerBirthD.substr(0, datepickerBirthD.search("/"));
+    var dayBirthD   = datepickerBirthD.substr(datepickerBirthD.search("/")+1,datepickerBirthD.length-8);
     var yearBirthD    = datepickerBirthD.substr(datepickerBirthD.lastIndexOf("/")+1,datepickerBirthD.length);
 
-    var dayExamation    = datepickerExamation.substr(0, datepickerExamation.search("/"));
-    var monthExamation   = datepickerExamation.substr(datepickerExamation.search("/")+1,datepickerExamation.lastIndexOf("/")-3);
+    var monthExamation    = datepickerExamation.substr(0, datepickerExamation.search("/"));
+    var dayExamation   = datepickerExamation.substr(datepickerExamation.search("/")+1,datepickerExamation.length-8);
     var yearExamation    = datepickerExamation.substr(datepickerExamation.lastIndexOf("/")+1,datepickerExamation.length);
+
+    if  (monthExamation[0] == 0)
+        monthExamation = monthExamation[1];
+
+    if  (dayExamation[0] == 0)
+        dayExamation = dayExamation[1];
+
+    if  (monthBirthD[0] == 0)
+        monthBirthD = monthBirthD[1];
+
+    if  (dayBirthD[0] == 0)
+        dayBirthD = dayBirthD[1];
 
     var obj = '{"name":"'+name+'", "surName":"'+surname+
                 '", "birthDay":'+dayBirthD+

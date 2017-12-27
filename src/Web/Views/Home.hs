@@ -11,6 +11,7 @@ import Text.Blaze.Html (Html, toHtml)
 getMenuBarHeader :: H.Html
 getMenuBarHeader = docTypeHtml $ do
          H.title "Home"
+         H.meta    ! A.charset "utf-8"
          H.meta    ! A.name "viewport"  ! A.content "width = device-width, initial-scale = 2"
          H.link    ! A.rel "stylesheet" ! A.href "https://storage.googleapis.com/code.getmdl.io/1.0.6/material.indigo-pink.min.css"
          H.script  ! A.src "https://storage.googleapis.com/code.getmdl.io/1.0.6/material.min.js" ! A.type_ "text/javascript" $ ""
