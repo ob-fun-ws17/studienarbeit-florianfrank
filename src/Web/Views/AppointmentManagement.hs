@@ -6,6 +6,7 @@ import Model.RESTDatatypes
 import Text.Blaze.Html5 as H
 import Text.Blaze.Html5.Attributes as A
 import Data.List as L
+import qualified Data.Text as T
 import           Database.Persist        hiding (get) -- To avoid a naming clash with Web.Spock.get
 import qualified Database.Persist        as P         -- We'll be using P.get later for GET /people/<id>.
 import           Database.Persist.Sqlite hiding (get)
@@ -54,7 +55,7 @@ viewTableBody' (x:xs) = do
             H.td $ toHtml (appointmentType (entityVal x))
             H.td $ toHtml (dateToString ((appointmentDay (entityVal x)), (appointmentMonth (entityVal x)), (appointmentYear (entityVal x)))) ! A.class_ "td"
             H.td $ toHtml (timeToString ((appointmentHour (entityVal x)), (appointmentMinute (entityVal x))))
-            --H.td $ toHtml "TODO: MEMBERS"
+            H.td $ toHtml (membersToString (appointmentMembers (entityVal x)))
         viewTableBody' (xs)
 
 viewTableBody' [] = H.h1 ""
@@ -84,6 +85,10 @@ timeToString (h, m) = str where
             else show h
         minute =
             if m < 10 then
-                "0" ++ show h
-            else show h
+                "0" ++ show m
+            else show m
         str = hour++":"++minute
+
+
+membersToString :: [T.Text] -> T.Text
+membersToString x = T.intercalate ", " x

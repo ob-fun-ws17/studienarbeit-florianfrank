@@ -24,8 +24,20 @@ Member json
   birthDay                      Int
   birthMonth                    Int
   birthYear                     Int
-  nextExamationAppointment      Int
+  examationDay                  Int
+  examationMonth                Int
+  examationYear                 Int
   instructionCheck              Int
   exerciseCheck                 Int
   UniqueMember                  name surName
+Appointment json
+  title                         T.Text
+  type                          T.Text
+  day                           Int
+  month                         Int
+  year                          Int
+  hour                          Int
+  minute                        Int
+  members                       [T.Text]
+  UniqueAppointment             title day month year hour
 |]

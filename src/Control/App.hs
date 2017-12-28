@@ -97,3 +97,5 @@ app =
            loginUser
        post "addMember" $ do
             addMember
+       post "addAppointment" $ do
+            addAppointment

@@ -70,6 +70,15 @@ getMembers = do
     members <- runSQL $ P.selectList [] [Asc MemberName]
     json members
 
+
+addAppointment = do
+    maybeAppointment <- jsonBody :: ApiAction ctx (Maybe Appointment)
+    case maybeAppointment of
+        Nothing -> errorJson 1 "Failed to parse request body as Member Data"
+        Just appointment -> do
+            newId <- runSQL $ insert appointment
+            json $ object ["result" .= String "success", "id" .= newId]
+
 errorJson :: Int -> T.Text -> ApiAction ctx a
 errorJson code message =
   json $
