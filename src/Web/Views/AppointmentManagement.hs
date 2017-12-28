@@ -28,7 +28,7 @@ viewAppointmentManagement members = do
                     H.form $ do
                         H.h3 "Termine"
                         H.button ! A.type_ "button" ! A.onclick "window.location.href='/addAppointment'"! A.class_ "button buttonGreen" $ "Termin hinzufügen"
-                        H.button !A.type_ "button" ! A.onclick "deleteMember()" ! A.class_ "button buttonBlue" $ "Löschen"
+                        H.button !A.type_ "button" ! A.onclick "deleteAppointment()" ! A.class_ "button buttonBlue" $ "Löschen"
                         H.table ! A.class_ "mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp width" ! A.id "appointmentTable" $ do
                             viewTableHead
                             viewTableBody members

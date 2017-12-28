@@ -122,12 +122,19 @@ function addAppointment()
     //Create a array of members
     for(var i = 0; i< members.length; i++)
     {
+        if (members.length == 1)
+        {
+            membersList.push("[\""+members[i].text+"\"]");
+        }
+        else
+        {
         if (i == 0)
             membersList.push("[\""+members[i].text+"\"");
         else if (i == members.length-1)
             membersList.push("\""+members[i].text+"\"]");
         else
             membersList.push("\""+members[i].text+"\"")
+        }
     }
 
     //parse day an month if string starts with a zero

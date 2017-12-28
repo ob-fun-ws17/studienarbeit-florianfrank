@@ -42,4 +42,6 @@ Appointment json
   minute                        Int
   members                       [T.Text]
   UniqueAppointment             title day month year hour
+Appointmentlist json
+  appointments                  [Appointment]
 |]

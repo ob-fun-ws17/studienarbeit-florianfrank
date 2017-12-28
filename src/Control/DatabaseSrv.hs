@@ -78,12 +78,12 @@ deleteMembers = do
             deleteMembers' m
 
 deleteMembers' (x:xs) = do
-    selectAndDelete (x)
+    selectAndDeleteMembers (x)
     deleteMembers' (xs)
 
 deleteMembers' [] = text ""
 
-selectAndDelete (Member n sn bd bm by _ _ _ _ _) = do
+selectAndDeleteMembers (Member n sn bd bm by _ _ _ _ _) = do
     newId <- runSQL $ P.deleteBy (UniqueMember n sn bd bm by)
     json $ object ["result" .= String "success", "id" .= newId]
 
@@ -94,6 +94,23 @@ addAppointment = do
         Just appointment -> do
             newId <- runSQL $ insert appointment
             json $ object ["result" .= String "success", "id" .= newId]
+
+deleteAppointments = do
+    maybeAppointment <- jsonBody ::ApiAction ctx (Maybe Appointmentlist)
+    case maybeAppointment of
+        Nothing -> errorJson 1 "Failed to parse request body as Member Data"
+        Just Appointmentlist{appointmentlistAppointments = a} -> do
+            deleteAppointments' a
+
+deleteAppointments' (x:xs) = do
+    selectAndDeleteAppointments (x)
+    deleteAppointments' (xs)
+
+deleteAppointments' [] = text ""
+
+selectAndDeleteAppointments (Appointment ti ty d mo y h mi me) = do
+    newId <- runSQL $ P.deleteBy (UniqueAppointment ti d mo y h)
+    json $ object ["result" .= String "success", "id" .= newId]
 
 errorJson :: Int -> T.Text -> ApiAction ctx a
 errorJson code message =
