@@ -70,6 +70,22 @@ getMembers = do
     members <- runSQL $ P.selectList [] [Asc MemberName]
     json members
 
+deleteMembers = do
+    maybeMembers <- jsonBody ::ApiAction ctx (Maybe Memberlist)
+    case maybeMembers of
+        Nothing -> errorJson 1 "Failed to parse request body as Member Data"
+        Just Memberlist{memberlistMembers = m} -> do
+            deleteMembers' m
+
+deleteMembers' (x:xs) = do
+    selectAndDelete (x)
+    deleteMembers' (xs)
+
+deleteMembers' [] = text ""
+
+selectAndDelete (Member n sn bd bm by _ _ _ _ _) = do
+    newId <- runSQL $ P.deleteBy (UniqueMember n sn bd bm by)
+    json $ object ["result" .= String "success", "id" .= newId]
 
 addAppointment = do
     maybeAppointment <- jsonBody :: ApiAction ctx (Maybe Appointment)

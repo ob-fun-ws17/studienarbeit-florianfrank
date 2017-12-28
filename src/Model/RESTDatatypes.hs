@@ -29,7 +29,9 @@ Member json
   examationYear                 Int
   instructionCheck              Int
   exerciseCheck                 Int
-  UniqueMember                  name surName
+  UniqueMember                  name surName birthDay birthMonth birthYear
+Memberlist json
+  members                       [Member]
 Appointment json
   title                         T.Text
   type                          T.Text

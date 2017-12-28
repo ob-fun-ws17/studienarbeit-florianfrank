@@ -27,7 +27,7 @@ viewMemberManagement members = do
                         H.h3 "Mitglieder"
                         H.button ! A.type_ "button" ! A.onclick "window.location.href='/addMember'"! A.class_ "button buttonGreen" $ "Mitglied hinzufügen"
                         H.button !A.type_ "button" ! A.onclick "deleteMember()" ! A.class_ "button buttonBlue" $ "Löschen"
-                        H.table ! A.class_ "mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" $ do
+                        H.table ! A.class_ "mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" ! A.id "memberTable" $ do
                             viewTableHead
                             viewTableBody members
                         --H.div ! A.id "procesbar1" ! A.style "width:820px" !  A.class_ "mdl-progress mdl-js-progress mdl-progress__indeterminate" $ ""
@@ -54,8 +54,8 @@ viewTableBody' (x:xs) = do
         H.tr $ do
             H.td ! A.class_ "mdl-data-table__cell--non-numeric" $ toHtml (memberName (entityVal x))
             H.td $ toHtml (memberSurName (entityVal x)) ! A.class_ "td"
-            H.td $ toHtml (dateToString ((memberBirthDay (entityVal x)), (memberBirthMonth (entityVal x)), (memberBirthYear (entityVal x))))
-            H.td $ toHtml (dateToString ((memberExamationDay (entityVal x)), (memberExamationMonth (entityVal x)), (memberExamationYear (entityVal x))))
+            H.td $ toHtml (dateToString ((memberBirthMonth (entityVal x)), (memberBirthDay (entityVal x)), (memberBirthYear (entityVal x))))
+            H.td $ toHtml (dateToString ((memberExamationMonth (entityVal x)), (memberExamationDay (entityVal x)), (memberExamationYear (entityVal x))))
             H.td $ toHtml (memberInstructionCheck (entityVal x))
             H.td $ toHtml (memberExerciseCheck (entityVal x))
             H.td "vielleicht"
@@ -65,7 +65,7 @@ viewTableBody' [] = H.h1 ""
 
 
 dateToString :: (Int, Int, Int) -> String
-dateToString (d, m, y) = str where
+dateToString (m, d, y) = str where
                  day  =
                      if d < 10 then
                          "0" ++ show d

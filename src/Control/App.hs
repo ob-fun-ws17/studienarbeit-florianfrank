@@ -99,3 +99,5 @@ app =
             addMember
        post "addAppointment" $ do
             addAppointment
+       post "deleteMember" $ do
+            deleteMembers

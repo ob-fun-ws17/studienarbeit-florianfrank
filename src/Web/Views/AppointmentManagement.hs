@@ -20,6 +20,7 @@ viewAppointmentManagement members = do
             getMenuBarHeader
             H.link ! A.rel "stylesheet" ! A.href "/css/appointmentmanagement.css"
             H.script ! A.src "/js/appointmentmanagement.js" ! A.type_ "text/javascript" $ ""
+            H.script ! A.src "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js" ! A.type_ "text/javascript" $ ""
             H.meta ! A.charset "UTF-8"
         H.body $ do
             H.div ! A.class_  "mdl-layout mdl-js-layout mdl-layout--fixed-drawer" $ do
@@ -28,7 +29,7 @@ viewAppointmentManagement members = do
                         H.h3 "Termine"
                         H.button ! A.type_ "button" ! A.onclick "window.location.href='/addAppointment'"! A.class_ "button buttonGreen" $ "Termin hinzufügen"
                         H.button !A.type_ "button" ! A.onclick "deleteMember()" ! A.class_ "button buttonBlue" $ "Löschen"
-                        H.table ! A.class_ "mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" $ do
+                        H.table ! A.class_ "mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp width" ! A.id "appointmentTable" $ do
                             viewTableHead
                             viewTableBody members
                         --H.div ! A.id "procesbar1" ! A.style "width:820px" !  A.class_ "mdl-progress mdl-js-progress mdl-progress__indeterminate" $ ""
@@ -55,11 +56,17 @@ viewTableBody' (x:xs) = do
             H.td $ toHtml (appointmentType (entityVal x))
             H.td $ toHtml (dateToString ((appointmentDay (entityVal x)), (appointmentMonth (entityVal x)), (appointmentYear (entityVal x)))) ! A.class_ "td"
             H.td $ toHtml (timeToString ((appointmentHour (entityVal x)), (appointmentMinute (entityVal x))))
-            H.td $ toHtml (membersToString (appointmentMembers (entityVal x)))
+            H.td $ (membersToString (appointmentMembers (entityVal x)))
         viewTableBody' (xs)
 
 viewTableBody' [] = H.h1 ""
 
+membersToString :: [T.Text] -> H.Html
+membersToString (x:xs) = do
+        H.pre $  toHtml x
+        membersToString(xs)
+
+membersToString [] = H.h1 ""
 
 dateToString :: (Int, Int, Int) -> String
 dateToString (d, m, y) = str where
@@ -88,7 +95,3 @@ timeToString (h, m) = str where
                 "0" ++ show m
             else show m
         str = hour++":"++minute
-
-
-membersToString :: [T.Text] -> T.Text
-membersToString x = T.intercalate ", " x

@@ -73,6 +73,7 @@ function addMember()
                 ', "nextExamationAppointment":'+0+
                 ', "instructionCheck":'+0+
                 ', "exerciseCheck":'+0+'}';
+
     var xhttp = new XMLHttpRequest();
      xhttp.open("POST", "http://localhost:8080/addMember", true);
      xhttp.setRequestHeader("Content-type", "application/json");
