@@ -12,14 +12,18 @@ build-type:          Simple
 extra-source-files:  README.md
                     ,static/css/login.css
                     ,static/css/membermanagement.css
+                    ,static/css/addappointmentmanagement.css
                     ,static/css/impressum.css
                     ,static/css/logout.css
                     ,static/css/addmember.css
                     ,static/css/jquery/jquery-ui.css
                     ,static/js/login.js
                     ,static/js/addmember.js
+                    ,static/js/appointmentmanagement.js
+                    ,static/js/addappointment.js
                     ,static/js/membermanagement.js
                     ,static/js/register.js
+                    ,static/js/logout.js
 
 cabal-version:       >=1.10
 
@@ -43,6 +47,7 @@ library
                       ,Web.Views.Register
                       ,Web.Views.AddMember
                       ,Web.Views.AddAppointment
+                      ,Web.Views.NoSessionKey
   build-depends:       base >= 4.7 && < 5
                       , Spock >=0.11
                       , mtl

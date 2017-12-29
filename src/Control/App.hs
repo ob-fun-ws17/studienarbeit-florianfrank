@@ -21,6 +21,7 @@ import Web.Views.Register
 import Web.Views.Logout
 import Web.Views.AddMember
 import Web.Views.AddAppointment
+import Web.Views.NoSessionKey
 
 import Web.Spock
 import Web.Spock.Config
@@ -72,34 +73,72 @@ app =
        get "/home" $
             blaze $ viewHome
        get "/membermanagement" $ do
-           members <- runSQL $ P.selectList [] [Asc MemberName]
-           blaze $ viewMemberManagement $ members
+           sessionKey <- runSQL $ P.getBy (UniqueSession 0)
+           case sessionKey of
+               Nothing -> blaze $ viewNoSessionKey
+               Just session -> do
+                   members <- runSQL $ P.selectList [] [Asc MemberName]
+                   blaze $ viewMemberManagement $ members
        get "/appointmentmanagement" $ do
-            appointments <- runSQL $ P.selectList [] [Asc AppointmentTitle]
-            blaze $ viewAppointmentManagement $ appointments
-       get "/logout" $
+           sessionKey <- runSQL $ P.getBy (UniqueSession 0)
+           case sessionKey of
+               Nothing -> blaze $ viewNoSessionKey
+               Just session -> do
+                    appointments <- runSQL $ P.selectList [] [Asc AppointmentTitle]
+                    blaze $ viewAppointmentManagement $ appointments
+       get "/logout" $ do
             blaze $ viewLogout
        get "/impressum" $
             blaze $ viewImpressum
        get "/register" $
             blaze $ viewRegister
-       get "/addMember" $
-            blaze $ viewAddMember
+       get "/addMember" $ do
+           sessionKey <- runSQL $ P.getBy (UniqueSession 0)
+           case sessionKey of
+               Nothing -> blaze $ viewNoSessionKey
+               Just session -> do
+                   blaze $ viewAddMember
        get "/addAppointment" $ do
-            members <- runSQL $ P.selectList [] [Asc MemberName]
-            blaze $ addAppointmentView members
+           sessionKey <- runSQL $ P.getBy (UniqueSession 0)
+           case sessionKey of
+               Nothing -> blaze $ viewNoSessionKey
+               Just session -> do
+                    members <- runSQL $ P.selectList [] [Asc MemberName]
+                    blaze $ addAppointmentView members
         -- REST API --
        get "createTable" $
-            runSQL $ runMigration migrateAll
+           runSQL $ runMigration migrateAll
        post "register" $ do
            registerUser
        post "login" $ do
            loginUser
        post "addMember" $ do
-            addMember
+           sessionKey <- runSQL $ P.getBy (UniqueSession 0)
+           case sessionKey of
+               Nothing -> blaze $ viewNoSessionKey
+               Just session -> do
+                   addMember
        post "addAppointment" $ do
-            addAppointment
+           sessionKey <- runSQL $ P.getBy (UniqueSession 0)
+           case sessionKey of
+               Nothing -> blaze $ viewNoSessionKey
+               Just session -> do
+                   addAppointment
        post "deleteMember" $ do
-            deleteMembers
+           sessionKey <- runSQL $ P.getBy (UniqueSession 0)
+           case sessionKey of
+               Nothing -> blaze $ viewNoSessionKey
+               Just session -> do
+                   deleteMembers
        post "deleteAppointment" $ do
-           deleteAppointments
+           sessionKey <- runSQL $ P.getBy (UniqueSession 0)
+           case sessionKey of
+               Nothing -> blaze $ viewNoSessionKey
+               Just session -> do
+                   deleteAppointments
+       post "logoutUser" $ do
+           sessionKey <- runSQL $ P.getBy (UniqueSession 0)
+           case sessionKey of
+               Nothing -> blaze $ viewNoSessionKey
+               Just session -> do
+                   logoutUser

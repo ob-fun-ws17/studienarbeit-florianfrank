@@ -54,8 +54,17 @@ loginUser = do
              maybeLoginDB <- runSQL $ P.getBy (UniqueLogin  m p)
              case maybeLoginDB of
                 Nothing -> errorJson 2 "Could not find a person with matching id"
-                Just loginDB -> json loginDB
+                Just loginDB -> do
+                    runSQL $ insert $ Session 0
+                    json loginDB
 
+logoutUser = do
+    maybeSessionKey <- jsonBody ::ApiAction ctx (Maybe Session)
+    case maybeSessionKey of
+        Nothing -> errorJson 2 "No Session Key received"
+        Just Session{sessionKey = sk} -> do
+            sessionID <- runSQL $ P.deleteBy (UniqueSession sk)
+            json $ object ["result" .= String "success", "id" .= sessionID]
 
 addMember = do
     maybeMember <- jsonBody :: ApiAction ctx (Maybe Member)

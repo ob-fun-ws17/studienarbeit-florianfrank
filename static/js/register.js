@@ -37,10 +37,18 @@ $(window, document, undefined).ready(function() {
 function register(){
     var mail = document.querySelector("#mail").value;
     var password = document.querySelector("#password").value;
+    var passwordRepeat = document.querySelector("#passwordRepeat").value;
+    if (password == passwordRepeat)
+    {
     var obj = '{ "mail":"'+mail+'", "password":"'+password+'"}'
     var xhttp = new XMLHttpRequest();
      xhttp.open("POST", "http://localhost:8080/register", true);
      xhttp.setRequestHeader("Content-type", "application/json");
      xhttp.send(obj);
      alert("You are sucessfully registered")
+    }
+    else
+    {
+        alert("passwords aren't equal!")
+    }
 }

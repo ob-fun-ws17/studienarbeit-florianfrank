@@ -50,7 +50,7 @@ viewHome = docTypeHtml $ do
                     H.span ! A.class_ "bar" $ ""
                     H.label "Name"
                 H.div ! A.class_ "group" $ do
-                    H.input ! A.type_ "email" ! A.id "password"
+                    H.input ! A.type_ "password" ! A.id "password"
                     H.span ! A.class_ "highlight" $ ""
                     H.span ! A.class_ "bar" $ ""
                     H.label "Passwort"

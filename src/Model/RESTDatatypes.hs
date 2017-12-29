@@ -18,6 +18,9 @@ Login json -- The json keyword will make Persistent generate sensible ToJSON and
   password                      T.Text
   UniqueLogin                   mail password
   deriving Show
+Session json
+  key                           Int
+  UniqueSession                 key
 Member json
   name                          T.Text
   surName                       T.Text
