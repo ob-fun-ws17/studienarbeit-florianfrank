@@ -31,7 +31,7 @@ addAppointmentView members = docTypeHtml $ do
         H.div ! A.class_  "mdl-layout mdl-js-layout mdl-layout--fixed-drawer" $ do
             getMenuBarBody
             H.hgroup $ do
-                H.h3 "Termin hinzufügen"
+                H.h3 ! A.class_ "addAppointment" $ "Termin hinzufügen"
             H.form $ do
                 H.div ! A.class_ "group" $ do
                     H.input ! A.type_ "text" ! A.id "title"
@@ -70,7 +70,6 @@ addAppointmentView members = docTypeHtml $ do
                 H.section $ do
                     H.div ! A.id "container" $ do
                         H.link ! A.rel "stylesheet prefetch" ! A.href "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
-                        H.label "Mitglieder auswählen"
                         H.div ! A.class_ "row addremove-multiselect" $ do
                             H.div ! A.class_ "col-lg-5 col-sm-5 col-xs-12" $ do
                                 H.div ! A.class_ "panel panel-default" $ do

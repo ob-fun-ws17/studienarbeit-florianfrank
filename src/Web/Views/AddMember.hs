@@ -49,5 +49,5 @@ viewAddMember = docTypeHtml $ do
                     H.input ! A.type_ "text" ! A.id "datepickerExamation"
                     H.span ! A.class_ "highlight" $ ""
                     H.label "nächster Untersuchtungstermin"
-                H.button ! A.type_ "button" ! A.onclick "addMember()" ! A.class_ "button buttonBlue" $ "Register"
+                H.button ! A.type_ "button" ! A.onclick "addMember()" ! A.class_ "button buttonBlue" $ "Mitglied hinzufügen"
                 H.button ! A.type_ "button" ! A.onclick "window.location.href='/membermanagement'" ! A.class_ "button buttonGreen" $ "Zurück"

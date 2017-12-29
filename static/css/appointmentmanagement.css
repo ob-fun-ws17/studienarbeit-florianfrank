@@ -18,12 +18,33 @@ hgroup {
 }
 
 form {
-	width: 600px;
-	margin: 4em auto;
+	width: 60%;
+	margin: 4em 25%;
 	padding: 3em 2em 2em 2em;
 	background: #fafafa;
 	border: 1px solid #ebebeb;
 	box-shadow: rgba(0,0,0,0.14902) 0px 1px 1px 0px,rgba(0,0,0,0.09804) 0px 1px 2px 0px;
+}
+
+table {
+    margin:0px auto;
+}
+
+.mdl-data-table {
+    table-layout:fixed;
+    width:100%;
+}
+
+.mdl-layout-title{
+	text-align: center;
+}
+
+td, th {
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
 }
 
 h1, h3 { font-weight: 300; }
@@ -32,9 +53,6 @@ h1 {color: #636363;}
 
 h3 { color: #4a89dc; }
 
-.td {
-    text-align: center;
-}
 
 /* Button */
 .button {
@@ -68,13 +86,13 @@ h3 { color: #4a89dc; }
 .buttonBlue {
   background: #4a89dc;
   text-shadow: 1px 1px 0 rgba(39, 110, 204, .5);
-  left: -210px;
+  left: -50%;
 }
 
 .buttonGreen {
   background: #4a89dc;
   text-shadow: 1px 1px 0 rgba(39, 110, 204, .5);
-  right: -210px;
+  right: -50%;
 }
 
 

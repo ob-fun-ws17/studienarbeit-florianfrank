@@ -18,4 +18,5 @@ viewLogout = docTypeHtml $ do
             getMenuBarBody
             H.hgroup $ do
                 H.form $ do
-                    H.h3 "Go Back"
+                    H.h3 $ do
+                        H.a ! A.href "/home" $ "Zurück zur Startseite"
