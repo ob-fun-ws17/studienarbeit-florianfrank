@@ -24,7 +24,7 @@ viewRegister = docTypeHtml $ do
             H.hgroup $ do
                 H.h1 "Register"
                 H.h3 "Insert your mail and password here"
-            H.form $ do
+            H.form ! A.class_ "loginRegisterForm" $ do
                 H.div ! A.class_ "group" $ do
                     H.input ! A.type_ "text" ! A.id "mail"
                     H.span ! A.class_ "highlight" $ ""

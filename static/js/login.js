@@ -50,6 +50,7 @@ function login(){
                  if (response.search("error") != -1){
                      alert("Login failed: "+response);
                  }else if(response.search("mail") != -1){
+                     window.location.reload();
                      alert("You are sucessfully logged in with email: "+mail);
                  }
              }

@@ -1,12 +1,17 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Web.Views.Home where
 
+import Model.RESTDatatypes
+
 import Control.Monad (forM_)
 import Text.Blaze.XHtml5 ((!))
 import qualified Text.Blaze.Bootstrap as H
 import Text.Blaze.Html5 as H
 import Text.Blaze.Html5.Attributes as A
 import Text.Blaze.Html (Html, toHtml)
+import Data.List as L
+import Database.Persist.Sqlite hiding (get)
+
 
 getMenuBarHeader :: H.Html
 getMenuBarHeader = docTypeHtml $ do
@@ -30,8 +35,8 @@ getMenuBarBody =
                 H.a ! A.class_ "mdl-navigation__link" ! A.href "logout" $ "Logout"
 
 
-viewHome :: H.Html
-viewHome = docTypeHtml $ do
+viewLogin :: H.Html
+viewLogin = docTypeHtml $ do
     H.head $ do
         getMenuBarHeader
         H.link ! A.rel "stylesheet" ! A.href "/css/login.css"
@@ -43,7 +48,7 @@ viewHome = docTypeHtml $ do
             H.hgroup $ do
                 H.h1 "Login Atemschutzplaner"
                 H.h3 "by Florian Frank"
-            H.form $ do
+            H.form ! A.class_ "loginRegisterForm" $ do
                 H.div ! A.class_ "group" $ do
                     H.input ! A.type_ "text" ! A.id "mail"
                     H.span ! A.class_ "highlight" $ ""
@@ -56,3 +61,41 @@ viewHome = docTypeHtml $ do
                     H.label "Passwort"
                 H.button ! A.type_ "button" ! A.onclick "login()"! A.class_ "button buttonBlue" $ "Login"
                 H.button ! A.type_ "button" ! A.onclick "window.location.href='/register'"! A.class_ "button buttonGreen" $ "Register"
+
+viewDashboard :: [Entity Member] -> [Entity Member] -> H.Html
+viewDashboard membersList readyMembersList = do
+    H.head $ do
+        getMenuBarHeader
+        H.link ! A.rel "stylesheet" ! A.href "/css/login.css"
+        H.script ! A.src "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js" ! A.type_ "text/javascript" $ ""
+        H.script ! A.src "/js/login.js" ! A.type_ "text/javascript" $ ""
+    H.body $ do
+        H.div ! A.class_  "mdl-layout mdl-js-layout mdl-layout--fixed-drawer" $ do
+            getMenuBarBody
+            H.hgroup $ do
+                H.h3 "Dashboard"
+            H.form ! A.class_ "dashboardForm" $ do
+                H.div ! A.class_ "mdl-grid" $ do
+                    H.div ! A.class_ "mdl-cell mdl-cell--6-col graybox" $ do
+                        H.div ! A.class_ "square-card mdl-card mdl-shadow--2dp" $ do
+                            H.div ! A.class_ "mdl-card__title" $ do
+                                H.h2 ! A.class_ "mdl-card__title-text" $ do
+                                    H.h4 "Anzahl Atemschutzgeräteträger"
+                            H.div ! A.class_ "mdl-card__supporting-text" $ do
+                                    H.h5 $  toHtml (L.length membersList)
+                    H.div ! A.class_ "mdl-cell mdl-cell--6-col graybox" $ do
+                        H.div ! A.class_ "square-card mdl-card mdl-shadow--2dp" $ do
+                            H.div ! A.class_ "mdl-card__title" $ do
+                                H.h2 ! A.class_ "mdl-card__title-text" $ do
+                                    H.h4 "Einsatzbereite Geräteträger"
+                            H.div ! A.class_ "mdl-card__supporting-text" $ do
+                                H.h5 $ toHtml (L.length readyMembersList)
+                H.div ! A.class_ "mdl-grid" $ do
+                    H.div ! A.class_ "mdl-cell mdl-cell--6-col graybox" $ do
+                        H.div ! A.class_ "square-card mdl-card mdl-shadow--2dp nextAppointmentCard" $ do
+                            H.div ! A.class_ "mdl-card__title" $ do
+                                H.h2 ! A.class_ "mdl-card__title-text" $ do
+                                    H.h4 "Nächster Termin"
+                            H.div ! A.class_ "mdl-card__supporting-text" $ do
+                                    H.h5 $ "Atemschutzübung"
+                                    H.h5 $ "Am 25.02.2017"

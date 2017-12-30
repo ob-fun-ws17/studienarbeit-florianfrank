@@ -68,10 +68,22 @@ blaze = lazyBytes . renderHtml
 app :: Api ()
 app =
     do middleware (staticPolicy (addBase "static"))
-       get root $
-            blaze $ viewHome
-       get "/home" $
-            blaze $ viewHome
+       get root $ do
+           sessionKey <- runSQL $ P.getBy (UniqueSession 0)
+           case sessionKey of
+               Nothing -> blaze $ viewLogin
+               Just session -> do
+                   members <- runSQL $ P.selectList [] [Asc MemberName]
+                   membersReady <- runSQL $ P.selectList [MemberInstructionCheck ==. 0, MemberExerciseCheck ==. 0, MemberExamationYear >=. 2017][]
+                   blaze $ viewDashboard members membersReady
+       get "/home" $ do
+           sessionKey <- runSQL $ P.getBy (UniqueSession 0)
+           case sessionKey of
+               Nothing -> blaze $ viewLogin
+               Just session -> do
+                   members <- runSQL $ P.selectList [] [Asc MemberName]
+                   membersReady <- runSQL $ P.selectList [MemberInstructionCheck ==. 1, MemberExerciseCheck ==. 1, MemberExamationYear >=. 2017][]
+                   blaze $ viewDashboard members membersReady
        get "/membermanagement" $ do
            sessionKey <- runSQL $ P.getBy (UniqueSession 0)
            case sessionKey of
