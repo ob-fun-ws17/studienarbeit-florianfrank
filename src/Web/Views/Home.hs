@@ -102,8 +102,4 @@ viewDashboard membersList readyMembersList appointmentList = do
                                     H.br
                                     toHtml (appointmentType (entityVal (appointmentList!!0)))
                                     H.br
-                                    toHtml (appointmentDay (entityVal (appointmentList!!0)))
-                                    text "."
-                                    toHtml (appointmentMonth (entityVal (appointmentList!!0)))
-                                    text "."
-                                    toHtml (appointmentYear (entityVal (appointmentList!!0)))
+                                    toHtml (dateToString (appointmentDay (entityVal (appointmentList!!0)), appointmentMonth (entityVal (appointmentList!!0)), appointmentYear (entityVal (appointmentList!!0))))

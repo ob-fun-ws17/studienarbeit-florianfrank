@@ -73,11 +73,10 @@ app =
            case sessionKey of
                Nothing -> blaze $ viewLogin
                Just session -> do
-                   members <- runSQL $ P.selectList [] [Asc MemberName]
-                   membersReady <- runSQL $ P.selectList [MemberInstructionCheck ==. 1, MemberExerciseCheck ==. 1, MemberExamationYear >=. 2017][]
-                   appointments <- runSQL $ P.selectList [] [Asc AppointmentYear]
                    now <- liftIO $ localTime
-                   blaze $ viewDashboard members membersReady (appointmentsInFuture appointments now)
+                   members <- runSQL $ P.selectList [] [Asc MemberName]
+                   appointments <- runSQL $ P.selectList [] [Asc AppointmentYear, Asc AppointmentMonth, Asc AppointmentYear]
+                   blaze $ viewDashboard members (membersReady members now) (appointmentsInFuture appointments now)
        get "/home" $ do
            sessionKey <- runSQL $ P.getBy (UniqueSession 0)
            case sessionKey of
@@ -100,7 +99,7 @@ app =
            case sessionKey of
                Nothing -> blaze $ viewNoSessionKey
                Just session -> do
-                    appointments <- runSQL $ P.selectList [] [Asc AppointmentTitle]
+                    appointments <- runSQL $ P.selectList [] [Asc AppointmentYear, Asc AppointmentMonth, Asc AppointmentYear]
                     blaze $ viewAppointmentManagement $ appointments
        get "/logout" $ do
             blaze $ viewLogout

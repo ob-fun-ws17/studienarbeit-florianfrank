@@ -62,19 +62,3 @@ viewTableBody' (x:xs) (ready: xready) = do
         viewTableBody' xs xready
 
 viewTableBody' [] [] = H.h1 ""
-
-
-dateToString :: (Int, Int, Int) -> String
-dateToString (m, d, y) = str where
-                 day  =
-                     if d < 10 then
-                         "0" ++ show d
-                     else
-                          show d
-                 month =
-                     if m < 10 then
-                         "0" ++ show m
-                     else
-                         show m
-
-                 str = day ++ "." ++ month ++ "." ++ show y

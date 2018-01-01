@@ -105,3 +105,30 @@ membersReadyFilter a (currDay, currMonth, currYear) = do
       if (instCheck == 1 && exerCheck == 1)
           then True
       else False
+
+dateToString :: (Int, Int, Int) -> String
+dateToString (m, d, y) = str where
+               day  =
+                   if d < 10 then
+                       "0" ++ show d
+                   else
+                        show d
+               month =
+                   if m < 10 then
+                       "0" ++ show m
+                   else
+                       show m
+
+               str = day ++ "." ++ month ++ "." ++ show y
+
+timeToString :: (Int, Int) -> String
+timeToString (h, m) = str where
+       hour =
+           if h < 10 then
+               "0" ++ show h
+           else show h
+       minute =
+           if m < 10 then
+               "0" ++ show m
+           else show m
+       str = hour++":"++minute
