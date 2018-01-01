@@ -12,8 +12,8 @@ import           Database.Persist.Sqlite hiding (get)
 import           Database.Persist.TH
 
 
-viewMemberManagement :: [Entity Member] -> H.Html
-viewMemberManagement members = do
+viewMemberManagement :: [Entity Member] -> [Bool] -> H.Html
+viewMemberManagement members ready = do
     docTypeHtml $ do
         H.head $ do
             getMenuBarHeader
@@ -29,7 +29,7 @@ viewMemberManagement members = do
                         H.button !A.type_ "button" ! A.onclick "deleteMember()" ! A.class_ "button buttonBlue" $ "Löschen"
                         H.table ! A.class_ "mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" ! A.id "memberTable" $ do
                             viewTableHead
-                            viewTableBody members
+                            viewTableBody members ready
                         --H.div ! A.id "procesbar1" ! A.style "width:820px" !  A.class_ "mdl-progress mdl-js-progress mdl-progress__indeterminate" $ ""
                 getMenuBarBody
 
@@ -45,12 +45,12 @@ viewTableHead =
                 H.th  "Einsatz/Übung"
                 H.th  "Anforderungen Erfüllt"
 
-viewTableBody :: [Entity Member] -> H.Html
-viewTableBody mem = H.tbody $ do
-        viewTableBody' (mem)
+viewTableBody :: [Entity Member] -> [Bool] -> H.Html
+viewTableBody mem ready = H.tbody $ do
+        viewTableBody' mem ready
 
-viewTableBody' :: [Entity Member] -> H.Html
-viewTableBody' (x:xs) = do
+viewTableBody' :: [Entity Member] -> [Bool] -> H.Html
+viewTableBody' (x:xs) (ready: xready) = do
         H.tr $ do
             H.td ! A.class_ "mdl-data-table__cell--non-numeric" $ toHtml (memberName (entityVal x))
             H.td $ toHtml (memberSurName (entityVal x)) ! A.class_ "td"
@@ -58,10 +58,10 @@ viewTableBody' (x:xs) = do
             H.td $ toHtml (dateToString ((memberExamationMonth (entityVal x)), (memberExamationDay (entityVal x)), (memberExamationYear (entityVal x))))
             H.td $ toHtml (memberInstructionCheck (entityVal x))
             H.td $ toHtml (memberExerciseCheck (entityVal x))
-            H.td "vielleicht"
-        viewTableBody' (xs)
+            H.td $ if ready then text "Ja" else text "Nein"
+        viewTableBody' xs xready
 
-viewTableBody' [] = H.h1 ""
+viewTableBody' [] [] = H.h1 ""
 
 
 dateToString :: (Int, Int, Int) -> String
