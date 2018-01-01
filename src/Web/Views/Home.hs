@@ -3,13 +3,14 @@ module Web.Views.Home where
 
 import Model.RESTDatatypes
 
+import Data.List as L
+import Control.Monad.IO.Class
 import Control.Monad (forM_)
 import Text.Blaze.XHtml5 ((!))
 import qualified Text.Blaze.Bootstrap as H
 import Text.Blaze.Html5 as H
 import Text.Blaze.Html5.Attributes as A
 import Text.Blaze.Html (Html, toHtml)
-import Data.List as L
 import Database.Persist.Sqlite hiding (get)
 
 
@@ -62,8 +63,8 @@ viewLogin = docTypeHtml $ do
                 H.button ! A.type_ "button" ! A.onclick "login()"! A.class_ "button buttonBlue" $ "Login"
                 H.button ! A.type_ "button" ! A.onclick "window.location.href='/register'"! A.class_ "button buttonGreen" $ "Register"
 
-viewDashboard :: [Entity Member] -> [Entity Member] -> H.Html
-viewDashboard membersList readyMembersList = do
+viewDashboard :: [Entity Member] -> [Entity Member] -> [Entity Appointment] -> H.Html
+viewDashboard membersList readyMembersList appointmentList = do
     H.head $ do
         getMenuBarHeader
         H.link ! A.rel "stylesheet" ! A.href "/css/login.css"
@@ -97,5 +98,12 @@ viewDashboard membersList readyMembersList = do
                                 H.h2 ! A.class_ "mdl-card__title-text" $ do
                                     H.h4 "Nächster Termin"
                             H.div ! A.class_ "mdl-card__supporting-text" $ do
-                                    H.h5 $ "Atemschutzübung"
-                                    H.h5 $ "Am 25.02.2017"
+                                    H.b $ toHtml (appointmentTitle (entityVal (appointmentList!!0)))
+                                    H.br
+                                    toHtml (appointmentType (entityVal (appointmentList!!0)))
+                                    H.br
+                                    toHtml (appointmentDay (entityVal (appointmentList!!0)))
+                                    text "."
+                                    toHtml (appointmentMonth (entityVal (appointmentList!!0)))
+                                    text "."
+                                    toHtml (appointmentYear (entityVal (appointmentList!!0)))

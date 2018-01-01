@@ -11,6 +11,11 @@ module Model.RESTDatatypes where
 
 import           Database.Persist.TH
 import qualified Data.Text as T
+import Data.List as L
+import Data.Time.Clock
+import Data.Time.Calendar
+import Database.Persist.Sqlite hiding (get)
+
 
 share [mkPersist sqlSettings, mkMigrate "migrateAll"] [persistLowerCase|
 Login json -- The json keyword will make Persistent generate sensible ToJSON and FromJSON instances for us.
@@ -48,3 +53,55 @@ Appointment json
 Appointmentlist json
   appointments                  [Appointment]
 |]
+
+localTime :: IO (Integer, Int, Int)
+localTime = do
+    now <- getCurrentTime
+    let(year, month, day) = toGregorian $ utctDay now
+    return (year, month, day)
+
+membersReady :: [Entity Member] -> (Integer, Int, Int) -> [Entity Member]
+membersReady memberList (currYear, currMonth, currDay) = do
+    L.filter (\x -> membersReadyFilter x (currDay, currMonth, toInteger currYear)) memberList
+
+membersReadyList :: [Entity Member] -> (Integer, Int, Int) -> [Bool]
+membersReadyList  memberList (currYear, currMonth, currDay) = do
+    map (\x -> membersReadyFilter x (currDay, currMonth, toInteger currYear)) memberList
+
+appointmentsInFuture :: [Entity Appointment] -> (Integer, Int, Int) -> [Entity Appointment]
+appointmentsInFuture appointmentList (currYear, currMonth, currDay) = do
+   L.filter (\x -> appointmentInFuture x (currDay, currMonth, toInteger currYear)) appointmentList
+
+
+appointmentInFuture :: Entity Appointment -> (Int, Int, Integer)-> Bool
+appointmentInFuture a (currDay, currMonth, currYear) = do
+   let year = toInteger (appointmentYear (entityVal a))
+   let month = (appointmentMonth (entityVal a))
+   let day = (appointmentDay (entityVal a))
+
+   if (currYear > year) then
+       False
+   else if (currYear == year && currMonth > month) then
+       False
+   else if (currYear == year && currMonth == month && currDay >= day) then
+       False
+   else True
+
+membersReadyFilter :: Entity Member -> (Int, Int, Integer)-> Bool
+membersReadyFilter a (currDay, currMonth, currYear) = do
+  let year = toInteger (memberExamationYear (entityVal a))
+  let month = (memberExamationMonth (entityVal a))
+  let day = (memberExamationDay (entityVal a))
+  let instCheck = (memberInstructionCheck (entityVal a))
+  let exerCheck = (memberExerciseCheck (entityVal a))
+
+  if (currYear > year) then
+      False
+  else if (currYear == year && currMonth > month) then
+      False
+  else if (currYear == year && currMonth == month && currDay >= day) then
+      False
+  else
+      if (instCheck == 1 && exerCheck == 1)
+          then True
+      else False

@@ -13,10 +13,8 @@ module Control.DatabaseSrv where
 import Model.RESTDatatypes
 import Model.Config
 
-
 import Web.Spock.Config
 import Web.Spock
-
 
 import           Control.Monad.Logger    (LoggingT, runStdoutLoggingT)
 import           Database.Persist        hiding (get) -- To avoid a naming clash with Web.Spock.get

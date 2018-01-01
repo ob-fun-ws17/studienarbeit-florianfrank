@@ -74,23 +74,27 @@ app =
                Nothing -> blaze $ viewLogin
                Just session -> do
                    members <- runSQL $ P.selectList [] [Asc MemberName]
-                   membersReady <- runSQL $ P.selectList [MemberInstructionCheck ==. 0, MemberExerciseCheck ==. 0, MemberExamationYear >=. 2017][]
-                   blaze $ viewDashboard members membersReady
+                   membersReady <- runSQL $ P.selectList [MemberInstructionCheck ==. 1, MemberExerciseCheck ==. 1, MemberExamationYear >=. 2017][]
+                   appointments <- runSQL $ P.selectList [] [Asc AppointmentYear]
+                   now <- liftIO $ localTime
+                   blaze $ viewDashboard members membersReady (appointmentsInFuture appointments now)
        get "/home" $ do
            sessionKey <- runSQL $ P.getBy (UniqueSession 0)
            case sessionKey of
                Nothing -> blaze $ viewLogin
                Just session -> do
+                   now <- liftIO $ localTime
                    members <- runSQL $ P.selectList [] [Asc MemberName]
-                   membersReady <- runSQL $ P.selectList [MemberInstructionCheck ==. 1, MemberExerciseCheck ==. 1, MemberExamationYear >=. 2017][]
-                   blaze $ viewDashboard members membersReady
+                   appointments <- runSQL $ P.selectList [] [Asc AppointmentYear]
+                   blaze $ viewDashboard members (membersReady members now) (appointmentsInFuture appointments now)
        get "/membermanagement" $ do
            sessionKey <- runSQL $ P.getBy (UniqueSession 0)
            case sessionKey of
                Nothing -> blaze $ viewNoSessionKey
                Just session -> do
+                   now <- liftIO $ localTime
                    members <- runSQL $ P.selectList [] [Asc MemberName]
-                   blaze $ viewMemberManagement $ members
+                   blaze $ viewMemberManagement members (membersReadyList members now)
        get "/appointmentmanagement" $ do
            sessionKey <- runSQL $ P.getBy (UniqueSession 0)
            case sessionKey of
