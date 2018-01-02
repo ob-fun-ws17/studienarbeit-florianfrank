@@ -52,12 +52,12 @@ viewTableBody mem ready = H.tbody $ do
 viewTableBody' :: [Entity Member] -> [Bool] -> H.Html
 viewTableBody' (x:xs) (ready: xready) = do
         H.tr $ do
-            H.td ! A.class_ "mdl-data-table__cell--non-numeric" $ toHtml (memberName (entityVal x))
-            H.td $ toHtml (memberSurName (entityVal x)) ! A.class_ "td"
+            H.td ! A.class_ "mdl-data-table__cell--non-numeric" $ toHtml (memberSurName (entityVal x))
+            H.td $ toHtml (memberName (entityVal x)) ! A.class_ "td"
             H.td $ toHtml (dateToString ((memberBirthMonth (entityVal x)), (memberBirthDay (entityVal x)), (memberBirthYear (entityVal x))))
             H.td $ toHtml (dateToString ((memberExamationMonth (entityVal x)), (memberExamationDay (entityVal x)), (memberExamationYear (entityVal x))))
-            H.td $ toHtml (memberInstructionCheck (entityVal x))
-            H.td $ toHtml (memberExerciseCheck (entityVal x))
+            H.td $ if (memberInstructionCheck (entityVal x)) == 0 then text "Nein" else text "Ja"
+            H.td $ if (memberExerciseCheck (entityVal x)) == 0 then text "Nein" else text "Ja"
             H.td $ if ready then text "Ja" else text "Nein"
         viewTableBody' xs xready
 

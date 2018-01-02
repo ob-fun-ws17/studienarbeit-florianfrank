@@ -13,8 +13,10 @@ module Control.DatabaseSrv where
 import Model.RESTDatatypes
 import Model.Config
 
+
 import Web.Spock.Config
 import Web.Spock
+
 
 import           Control.Monad.Logger    (LoggingT, runStdoutLoggingT)
 import           Database.Persist        hiding (get) -- To avoid a naming clash with Web.Spock.get
@@ -118,6 +120,26 @@ deleteAppointments' [] = text ""
 selectAndDeleteAppointments (Appointment ti ty d mo y h mi me) = do
     newId <- runSQL $ P.deleteBy (UniqueAppointment ti d mo y h)
     json $ object ["result" .= String "success", "id" .= newId]
+
+updateMembers = do
+    maybeMemberUpdate <- jsonBody ::ApiAction ctx (Maybe Membersupdate)
+    case maybeMemberUpdate of
+        Nothing -> errorJson 1 "Failed to parse request body to update Members"
+        Just Membersupdate{membersupdateType = t, membersupdateMemberSurNames = sn, membersupdateMemberNames = mn} -> do
+            updateMembers' t sn mn
+
+updateMembers' ty (x:xs) (x2:x2s)= do
+    updateMembers'' ty (x, x2)
+    updateMembers' ty xs x2s
+
+updateMembers'' ty (membersurname, membername) =
+        if (ty == "Übung" || ty == "Einsatz") then do
+            newID <- runSQL $ P.updateWhere [MemberName ==. membername, MemberSurName ==. membersurname] [MemberExerciseCheck =. 1]
+            json $ object ["result" .= String "success", "id" .= newID]
+        else if (ty == "Unterweisung") then do
+            newID <- runSQL $ P.updateWhere [MemberName ==. membername, MemberSurName ==. membersurname] [MemberInstructionCheck =. 1]
+            json $ object ["result" .= String "success", "id" .= newID]
+        else errorJson 1 "Failed to parse request body to update Members"
 
 errorJson :: Int -> T.Text -> ApiAction ctx a
 errorJson code message =

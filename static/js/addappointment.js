@@ -172,4 +172,44 @@ function addAppointment()
            }
          }
      xhttp.send(obj);
+
+     sleep(100);
+     updateMembers(type, members);
+}
+
+function updateMembers(type, membersList)
+{
+    var memberSurNames = [membersList.length];
+    var memberNames = [membersList.length];
+    for (var i = 0; i< membersList.length; i++)
+    {
+        memberNames[i] = "\""+membersList[i].text.substr(0, membersList[i].text.search(" "))+"\"";
+        memberSurNames[i] = "\""+membersList[i].text.substr(membersList[i].text.search(" ")+1, membersList[i].text.length)+"\"";
+    }
+
+    var obj = '{"type":"'+type+
+                '", "memberSurNames":['+memberSurNames+
+                '], "memberNames":['+memberNames+
+                ']}';
+
+    var xhttp = new XMLHttpRequest();
+     xhttp.open("POST", "http://localhost:8080/updateMember", true);
+     xhttp.setRequestHeader("Content-type", "application/json");
+     var sendAlert = true;
+     xhttp.onreadystatechange = function() {
+         if(sendAlert){
+             var response = xhttp.responseText
+             if(response){
+                 sendAlert = false;
+                 if (response.search("error") != -1){
+                     alert("UpdateMember Failed: "+response);
+                 }
+             }
+           }
+         }
+     xhttp.send(obj);
+}
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
 }

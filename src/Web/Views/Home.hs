@@ -97,9 +97,13 @@ viewDashboard membersList readyMembersList appointmentList = do
                             H.div ! A.class_ "mdl-card__title" $ do
                                 H.h2 ! A.class_ "mdl-card__title-text" $ do
                                     H.h4 "Nächster Termin"
-                            H.div ! A.class_ "mdl-card__supporting-text" $ do
-                                    H.b $ toHtml (appointmentTitle (entityVal (appointmentList!!0)))
-                                    H.br
-                                    toHtml (appointmentType (entityVal (appointmentList!!0)))
-                                    H.br
-                                    toHtml (dateToString (appointmentDay (entityVal (appointmentList!!0)), appointmentMonth (entityVal (appointmentList!!0)), appointmentYear (entityVal (appointmentList!!0))))
+                            if (L.length appointmentList >= 1) then
+                                H.div ! A.class_ "mdl-card__supporting-text" $ do
+                                        H.b $ toHtml (appointmentTitle (entityVal (appointmentList!!0)))
+                                        H.br
+                                        toHtml (appointmentType (entityVal (appointmentList!!0)))
+                                        H.br
+                                        toHtml (dateToString (appointmentMonth (entityVal (appointmentList!!0)), appointmentDay (entityVal (appointmentList!!0)), appointmentYear (entityVal (appointmentList!!0))))
+                            else
+                                H.div ! A.class_ "mdl-card__supporting-text" $ do
+                                    H.b $ text "Keine ausstehenden Termine"

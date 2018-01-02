@@ -85,7 +85,12 @@ function deleteMember()
         }
         else
         {
-            rowValues.push(columns[i2].innerText);
+            if (columns[i2].innerText == "Ja")
+                rowValues.push(1);
+            else if (columns[i2].innerText == "Nein")
+                rowValues.push(1);
+            else
+                rowValues.push(columns[i2].innerText);
         }
     }
        tableValues.push(rowValues);
@@ -174,4 +179,5 @@ function deleteMember()
            }
          }
      xhttp.send(jsonData);
+
 }

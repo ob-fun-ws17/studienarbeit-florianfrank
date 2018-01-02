@@ -54,7 +54,7 @@ viewTableBody' (x:xs) = do
         H.tr $ do
             H.td ! A.class_ "mdl-data-table__cell--non-numeric" $ toHtml (appointmentTitle (entityVal x))
             H.td $ toHtml (appointmentType (entityVal x))
-            H.td $ toHtml (dateToString ((appointmentDay (entityVal x)), (appointmentMonth (entityVal x)), (appointmentYear (entityVal x)))) ! A.class_ "td"
+            H.td $ toHtml (dateToString ((appointmentMonth (entityVal x)), (appointmentDay (entityVal x)), (appointmentYear (entityVal x)))) ! A.class_ "td"
             H.td $ toHtml (timeToString ((appointmentHour (entityVal x)), (appointmentMinute (entityVal x))))
             H.td $ (membersToString (appointmentMembers (entityVal x)))
         viewTableBody' (xs)

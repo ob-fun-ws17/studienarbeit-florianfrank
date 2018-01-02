@@ -40,6 +40,10 @@ Member json
   UniqueMember                  name surName birthDay birthMonth birthYear
 Memberlist json
   members                       [Member]
+Membersupdate json
+  type                          T.Text
+  memberSurNames                [T.Text]
+  memberNames                   [T.Text]
 Appointment json
   title                         T.Text
   type                          T.Text

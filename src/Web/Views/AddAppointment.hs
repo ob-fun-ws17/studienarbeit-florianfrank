@@ -44,7 +44,7 @@ addAppointmentView members = docTypeHtml $ do
                         H.ul ! for "type" ! A.class_ "mdl-menu mdl-menu--bottom-left mdl-js-menu" $ do
                             H.li ! A.class_ "mdl-menu__item" $ "Übung"
                             H.li ! A.class_ "mdl-menu__item" $ "Einsatz"
-                            H.li ! A.class_ "mdl-menu__item" $ "Untersuchtung"
+                            H.li ! A.class_ "mdl-menu__item" $ "Unterweisung"
                             H.li ! A.class_ "mdl-menu__item" $ "Übungsanlage"
                         H.label "Typ"
                 H.div ! A.class_ "group" $ do

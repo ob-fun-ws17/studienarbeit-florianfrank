@@ -151,6 +151,12 @@ app =
                Nothing -> blaze $ viewNoSessionKey
                Just session -> do
                    deleteAppointments
+       post "updateMember" $ do
+           sessionKey <- runSQL $ P.getBy (UniqueSession 0)
+           case sessionKey of
+               Nothing -> blaze $ viewNoSessionKey
+               Just session -> do
+                   updateMembers
        post "logoutUser" $ do
            sessionKey <- runSQL $ P.getBy (UniqueSession 0)
            case sessionKey of
