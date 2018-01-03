@@ -1,4 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
+-- | Module shows NoSessionKeyView
 module Web.Views.NoSessionKey where
 
 import Web.Views.Home
@@ -6,8 +7,8 @@ import Text.Blaze.Html5 as H
 import Text.Blaze.Html5.Attributes as A
 import qualified Data.Text as T
 
-
-viewNoSessionKey :: H.Html
+-- | create nosessionkey html page
+viewNoSessionKey :: H.Html  -- ^ html page
 viewNoSessionKey = docTypeHtml $ do
     H.head $ do
         getMenuBarHeader

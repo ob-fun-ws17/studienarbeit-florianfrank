@@ -1,4 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
+-- | Module shows AddAppointment View
 module Web.Views.AddAppointment where
 
 import Web.Views.Home
@@ -12,7 +13,10 @@ import qualified Database.Persist        as P         -- We'll be using P.get la
 import           Database.Persist.Sqlite hiding (get)
 import           Database.Persist.TH
 
-addAppointmentView :: [Entity Member] -> H.Html
+
+-- | Create add appointment html page
+addAppointmentView :: [Entity Member] -- ^ Memberlist to add members to appointment
+    -> H.Html                         -- ^ HTML page
 addAppointmentView members = docTypeHtml $ do
     H.head $ do
         getMenuBarHeader
@@ -94,28 +98,44 @@ addAppointmentView members = docTypeHtml $ do
                 H.button ! A.type_ "button" ! A.onclick "window.location.href='/appointmentmanagement'" ! A.class_ "button buttonGreen" $ "Zurück"
 
 
-addMemberMultiselect :: [Entity Member] -> H.Html
+-- | add members to multiselect field
+addMemberMultiselect :: [Entity Member] -- ^ Members to add
+    -> H.Html                           -- ^ return Html element
 addMemberMultiselect member = H.tbody $ do
     addMemberMultiselect' (member)
 
-addMemberMultiselect' :: [Entity Member] -> H.Html
+
+-- | recursive to add member to multiselect field
+addMemberMultiselect' :: [Entity Member] -- ^ Members to add
+    -> H.Html                            -- ^ return Html element
 addMemberMultiselect' (x: xs) = do
     H.option ! A.value (textValue (nameToString (memberName (entityVal x), memberSurName (entityVal x)))) $ (toHtml (nameToString (memberName (entityVal x), memberSurName (entityVal x))))
     addMemberMultiselect' (xs)
 
+
+-- | recursive to add member to multiselect field
 addMemberMultiselect' [] = H.h1 ""
 
-setNumbersDropDownBox ::[Int] -> H.Html
+
+-- | set numbersarray into dropdown menu
+setNumbersDropDownBox ::[Int] -- ^ array to add
+    -> H.Html                 -- ^ return Html element
 setNumbersDropDownBox numbers = do
     setNumbersDropDownBox' numbers
 
-setNumbersDropDownBox' :: [Int] -> H.Html
+
+-- | recursive helperfunction to set numbersarray into dropdown menu
+setNumbersDropDownBox' :: [Int]     -- ^ array to add
+    -> H.Html                       -- ^ return Html element
 setNumbersDropDownBox' (x: xs) = do
     H.li ! A.class_ "mdl-menu__item" $ toHtml x
     setNumbersDropDownBox'(xs)
 
+-- | recursive to add member to multiselect field
 setNumbersDropDownBox' [] = H.h1 ""
 
 
-nameToString:: (T.Text, T.Text) -> T.Text
+-- | create name list to string
+nameToString:: (T.Text, T.Text) -- ^ list with surname and name
+    -> T.Text                   -- ^ return "surname name"
 nameToString (a, b) =  T.concat [a,  (T.pack " "), b]

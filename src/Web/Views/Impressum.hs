@@ -1,4 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
+-- | Module shows Impressum View
 module Web.Views.Impressum where
 
 import Web.Views.Home
@@ -7,7 +8,8 @@ import Text.Blaze.Html5.Attributes as A
 import qualified Data.Text as T
 
 
-viewImpressum :: H.Html
+-- | create impressum html page
+viewImpressum :: H.Html -- ^ html page
 viewImpressum = docTypeHtml $ do
     H.head $ do
         getMenuBarHeader

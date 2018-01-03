@@ -8,6 +8,7 @@
 {-# LANGUAGE QuasiQuotes                #-}
 {-# LANGUAGE TemplateHaskell            #-}
 {-# LANGUAGE TypeFamilies               #-}
+-- | Module starts Web and Restserice such as the Databaseserver
 module Control.App where
 
 import Model.RESTDatatypes
@@ -47,25 +48,35 @@ import           Database.Persist.TH
 import qualified Data.Configurator as C
 
 
-init_view :: Config -> IO ()
+-- | Initalizes the Spock server
+init_view :: Config -- ^ Configuration of the Server
+    -> IO ()        -- ^ Do IO
 init_view cfg =
     do pool <- runStdoutLoggingT $ createSqlitePool (db_name cfg) 5
        spockCfg <- defaultSpockCfg Nothing (PCPool pool) (State cfg)
        runSpock (app_port cfg) $ spock spockCfg app
 
 
-parseConfig :: FilePath -> IO Config
+-- | Parses the config file
+parseConfig :: FilePath -- ^ path of the config file
+    -> IO Config        -- ^ Do IO return Config
 parseConfig cfgFile =
    do cfg <- C.load [C.Required cfgFile]
       db <- C.require cfg "db"
       port <- C.require cfg "port"
       return (Config db port)
 
-blaze :: MonadIO m => Html -> ActionCtxT ctx m a
+
+-- | Blaze HTML
+blaze :: MonadIO m
+    => Html                -- ^ HTML document to parse
+    -> ActionCtxT ctx m a  -- ^ A spock action
 blaze = lazyBytes . renderHtml
 {-# INLINE blaze #-}
 
-app :: Api ()
+
+-- | Contains all functions of the spock server
+app :: Api ()    -- ^ Return Api()
 app =
     do middleware (staticPolicy (addBase "static"))
        get root $ do

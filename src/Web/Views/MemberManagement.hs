@@ -1,4 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
+-- | Module shows MemberManagement view
 module Web.Views.MemberManagement where
 
 import Web.Views.Home
@@ -12,7 +13,10 @@ import           Database.Persist.Sqlite hiding (get)
 import           Database.Persist.TH
 
 
-viewMemberManagement :: [Entity Member] -> [Bool] -> H.Html
+-- | create MemberManagement html page
+viewMemberManagement :: [Entity Member]   -- ^ members
+    -> [Bool]                             -- ^ flag if member is ready
+    -> H.Html                             -- ^ html page
 viewMemberManagement members ready = do
     docTypeHtml $ do
         H.head $ do
@@ -34,7 +38,8 @@ viewMemberManagement members ready = do
                 getMenuBarBody
 
 
-viewTableHead :: H.Html
+-- | create table head html element
+viewTableHead :: H.Html  -- ^ html page
 viewTableHead =
             H.thead $ do
                 H.th ! A.class_ "mdl-data-table__cell--non-numeric" $ "Vorname"
@@ -45,11 +50,17 @@ viewTableHead =
                 H.th  "Einsatz/Übung"
                 H.th  "Anforderungen Erfüllt"
 
-viewTableBody :: [Entity Member] -> [Bool] -> H.Html
+-- | create table body html element
+viewTableBody :: [Entity Member]     -- ^ members
+    -> [Bool]                        -- ^ ready members
+    -> H.Html                        -- ^ html page
 viewTableBody mem ready = H.tbody $ do
         viewTableBody' mem ready
 
-viewTableBody' :: [Entity Member] -> [Bool] -> H.Html
+-- | recursive table body helper function
+viewTableBody' :: [Entity Member]   -- ^ members
+    -> [Bool]                       -- ^ ready members
+    -> H.Html                       -- ^ html page
 viewTableBody' (x:xs) (ready: xready) = do
         H.tr $ do
             H.td ! A.class_ "mdl-data-table__cell--non-numeric" $ toHtml (memberSurName (entityVal x))
@@ -61,4 +72,6 @@ viewTableBody' (x:xs) (ready: xready) = do
             H.td $ if ready then text "Ja" else text "Nein"
         viewTableBody' xs xready
 
+
+-- | recursive table body helper function
 viewTableBody' [] [] = H.h1 ""

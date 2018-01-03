@@ -1,4 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
+-- | Module shows Logout view
 module Web.Views.Logout where
 
 import Web.Views.Home
@@ -7,7 +8,8 @@ import Text.Blaze.Html5.Attributes as A
 import qualified Data.Text as T
 
 
-viewLogout :: H.Html
+-- | create logout html page
+viewLogout :: H.Html    -- ^ html page
 viewLogout = docTypeHtml $ do
     H.head $ do
         getMenuBarHeader

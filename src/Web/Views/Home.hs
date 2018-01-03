@@ -1,4 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
+-- | Module includes menubar shows dashboard and login
 module Web.Views.Home where
 
 import Model.RESTDatatypes
@@ -14,7 +15,8 @@ import Text.Blaze.Html (Html, toHtml)
 import Database.Persist.Sqlite hiding (get)
 
 
-getMenuBarHeader :: H.Html
+-- | create menu bar header html element
+getMenuBarHeader :: H.Html  -- ^ html page
 getMenuBarHeader = docTypeHtml $ do
          H.title "Home"
          H.meta    ! A.charset "utf-8"
@@ -23,7 +25,9 @@ getMenuBarHeader = docTypeHtml $ do
          H.script  ! A.src "https://storage.googleapis.com/code.getmdl.io/1.0.6/material.min.js" ! A.type_ "text/javascript" $ ""
          H.link    ! A.rel "stylesheet" ! A.href "https://fonts.googleapis.com/icon?family=Material+Icons"
 
-getMenuBarBody :: H.Html
+
+-- | create menu bar body Html Page
+getMenuBarBody :: H.Html -- ^ html page
 getMenuBarBody =
     H.div ! A.class_ "mdl-layout__drawer" $ do
         H.p $ do
@@ -36,7 +40,8 @@ getMenuBarBody =
                 H.a ! A.class_ "mdl-navigation__link" ! A.href "logout" $ "Logout"
 
 
-viewLogin :: H.Html
+-- | create view login page
+viewLogin :: H.Html  -- ^ html page
 viewLogin = docTypeHtml $ do
     H.head $ do
         getMenuBarHeader
@@ -63,7 +68,12 @@ viewLogin = docTypeHtml $ do
                 H.button ! A.type_ "button" ! A.onclick "login()"! A.class_ "button buttonBlue" $ "Login"
                 H.button ! A.type_ "button" ! A.onclick "window.location.href='/register'"! A.class_ "button buttonGreen" $ "Register"
 
-viewDashboard :: [Entity Member] -> [Entity Member] -> [Entity Appointment] -> H.Html
+
+-- | create dashboard html page
+viewDashboard :: [Entity Member]      -- ^ all members
+    -> [Entity Member]                -- ^ ready members
+    -> [Entity Appointment]           -- ^ appointments
+    -> H.Html                         -- ^ html page
 viewDashboard membersList readyMembersList appointmentList = do
     H.head $ do
         getMenuBarHeader

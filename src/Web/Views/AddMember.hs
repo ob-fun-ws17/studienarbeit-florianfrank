@@ -1,4 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
+-- | Module shows AddMember view
 module Web.Views.AddMember where
 
 import Web.Views.Home
@@ -11,7 +12,8 @@ import Text.Blaze.Html5.Attributes as A
 import Text.Blaze.Html (Html, toHtml)
 
 
-viewAddMember :: H.Html
+-- | create addMember Html Page
+viewAddMember :: H.Html -- ^ html element
 viewAddMember = docTypeHtml $ do
     H.head $ do
         getMenuBarHeader

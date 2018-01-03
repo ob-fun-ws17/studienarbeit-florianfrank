@@ -1,4 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
+-- | Module shows AppointmentManagement
 module Web.Views.AppointmentManagement where
 
 import Web.Views.Home
@@ -13,7 +14,9 @@ import           Database.Persist.Sqlite hiding (get)
 import           Database.Persist.TH
 
 
-viewAppointmentManagement :: [Entity Appointment] -> H.Html
+-- | create AppointmentManagement HTML page
+viewAppointmentManagement :: [Entity Appointment]   -- ^ all appointments
+    -> H.Html                                       -- ^ html page
 viewAppointmentManagement members = do
     docTypeHtml $ do
         H.head $ do
@@ -36,7 +39,8 @@ viewAppointmentManagement members = do
                 getMenuBarBody
 
 
-viewTableHead :: H.Html
+-- | create table body html element
+viewTableHead :: H.Html  -- ^ html page
 viewTableHead =
             H.thead $ do
                 H.th ! A.class_ "mdl-data-table__cell--non-numeric" $ "Titel"
@@ -45,11 +49,16 @@ viewTableHead =
                 H.th  "Uhrzeit"
                 H.th  "Teilnehmer"
 
-viewTableBody :: [Entity Appointment] -> H.Html
+
+-- | recursive table body helper function
+viewTableBody :: [Entity Appointment]    -- ^ all appointments
+    -> H.Html                            -- ^ html page
 viewTableBody mem = H.tbody $ do
         viewTableBody' (mem)
 
-viewTableBody' :: [Entity Appointment] -> H.Html
+-- | recursive table body helper function
+viewTableBody' :: [Entity Appointment]   -- ^ all appointments
+    -> H.Html                            -- ^ html page
 viewTableBody' (x:xs) = do
         H.tr $ do
             H.td ! A.class_ "mdl-data-table__cell--non-numeric" $ toHtml (appointmentTitle (entityVal x))
@@ -59,11 +68,15 @@ viewTableBody' (x:xs) = do
             H.td $ (membersToString (appointmentMembers (entityVal x)))
         viewTableBody' (xs)
 
+-- | recursive table body helper function
 viewTableBody' [] = H.h1 ""
 
-membersToString :: [T.Text] -> H.Html
+-- | convert list of members to a single string
+membersToString :: [T.Text]  -- ^ members to convert
+    -> H.Html                -- ^ html page
 membersToString (x:xs) = do
         H.pre $  toHtml x
         membersToString(xs)
 
+-- | recursive name to string helper function
 membersToString [] = H.h1 ""

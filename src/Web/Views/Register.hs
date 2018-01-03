@@ -1,4 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
+-- | Module shows Register View
 module Web.Views.Register where
 
 import Web.Views.Home
@@ -10,8 +11,8 @@ import Text.Blaze.Html5 as H
 import Text.Blaze.Html5.Attributes as A
 import Text.Blaze.Html (Html, toHtml)
 
-
-viewRegister :: H.Html
+-- | create register html page
+viewRegister :: H.Html  -- ^ html page
 viewRegister = docTypeHtml $ do
     H.head $ do
         getMenuBarHeader
