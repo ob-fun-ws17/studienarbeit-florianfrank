@@ -1,7 +1,7 @@
 name:                Atemschutzterminplaner
 version:             0.1.0.0
 synopsis:            Short description of your package
-homepage:            https://github.com/githubuser/Atemschutzterminplaner#readme
+homepage:            https://github.com/ob-fun-ws17/studienarbeit-florianfrank/#readme
 license:             BSD3
 license-file:        LICENSE
 author:              Author name here
@@ -12,7 +12,7 @@ build-type:          Simple
 extra-source-files:  README.md
                     ,static/css/login.css
                     ,static/css/membermanagement.css
-                    ,static/css/addappointmentmanagement.css
+                    ,static/css/appointmentmanagement.css
                     ,static/css/impressum.css
                     ,static/css/logout.css
                     ,static/css/addmember.css
@@ -34,8 +34,7 @@ description:         Please see the README on Github at <https://github.com/gith
 
 library
   hs-source-dirs:      src
-  exposed-modules:     Model.Member
-                      ,Model.Config
+  exposed-modules:     Model.Config
                       ,Model.RESTDatatypes
                       ,Control.App
                       ,Control.DatabaseSrv

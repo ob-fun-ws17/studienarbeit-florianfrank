@@ -105,7 +105,7 @@ function deleteMember()
         var tableRow = tableValues[i];
         if(i == 0 && i == tableValues.length-1)
         {
-            var row = '{"members": [{"name":"'+tableRow[0]+'", "surName":"'+tableRow[1]+
+            var row = '{"members": [{"surName":"'+tableRow[0]+'", "name":"'+tableRow[1]+
                         '", "birthDay":'+tableRow[2]+
                         ', "birthMonth":'+tableRow[3]+
                         ', "birthYear":'+tableRow[4]+
@@ -120,7 +120,7 @@ function deleteMember()
         {
             if(i == 0)
             {
-                var row = '{"members": [{"name":"'+tableRow[0]+'", "surName":"'+tableRow[1]+
+                var row = '{"members": [{"surName":"'+tableRow[0]+'", "name":"'+tableRow[1]+
                             '", "birthDay":'+tableRow[2]+
                             ', "birthMonth":'+tableRow[3]+
                             ', "birthYear":'+tableRow[4]+
