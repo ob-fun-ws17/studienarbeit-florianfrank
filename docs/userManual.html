@@ -1,0 +1,98 @@
+<html>
+   <head>
+      <meta charset="UTF-8">
+      <title>Anleitung</title>
+	  <meta name = "viewport" content = "width = device-width, initial-scale = 1">
+      <link rel = "stylesheet"
+         href = "https://storage.googleapis.com/code.getmdl.io/1.0.6/material.indigo-pink.min.css">
+      <link rel = "stylesheet"
+         href = "css/atemschutzplaner.css">
+      <script src = "https://storage.googleapis.com/code.getmdl.io/1.0.6/material.min.js">
+      </script>
+      <link rel = "stylesheet"
+         href = "https://fonts.googleapis.com/icon?family=Material+Icons">
+   </head>
+
+   <body>
+      <div class = "mdl-layout mdl-js-layout mdl-layout--fixed-drawer">
+         <div class = "mdl-layout__drawer">
+            <span class = "mdl-layout-title">Atemschutzplaner</span>
+            <nav class = "mdl-navigation">
+                <a class = "mdl-navigation__link" href = "index.html">Allgmeines</a>
+                <a class = "mdl-navigation__link" href = "installationAndConfig.html">Installation und Konfiguration</a>
+                <a class = "mdl-navigation__link" href = "technicalStructure.html">Technischer Aufbau</a>
+                <a class = "mdl-navigation__link" href = "userManual.html">Anleitung</a>
+                <a class = "mdl-navigation__link" href = "">Haddock</a>
+            </nav>
+         </div>
+
+         <main class = "mdl-layout__content">
+             <hgroup>
+               <h3>Anleitung</h3>
+             </hgroup>
+             <form>
+                 <h4>1. Anmeldung</h4>
+                 <div class="text-block">
+                    Für die nutzung des Systems muss sich der Benutzer mit einer Email und Passwort anmelden.
+                    <div class="mdl-grid">
+                        <div class = "mdl-cell mdl-cell--6-col graybox">
+                            <img src="images/Register.png"height="350" width="300">
+                        </div>
+                        <div class = "mdl-cell mdl-cell--6-col graybox">
+                            <img src="images/Login.png"height="350" width="320">
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <h4>2. Anlegen von Mitgliedern</h4>
+                <div class="text-block">
+                    Im Bereich Mitgliederverwaltung findet sich eine Übersicht der angelegten Mitglieder.
+                    Mit dem Button Mitglied hinzufügen wird ein neues Mitglied mit Name, Vorname, Geburtsdatum und dem Datum der nächsten Untersuchung angelegt.
+                    Mit dem Button Löschen werden die ausgewählte Mitglieder entfernt.
+                    <div class="mdl-grid">
+                        <div class = "mdl-cell mdl-cell--6-col graybox">
+                            <img src="images/Membermanagement.png"height="200" width="350">
+                        </div>
+                        <div class = "mdl-cell mdl-cell--6-col graybox">
+                            <img src="images/AddMember.png"height="250" width="250">
+                        </div>
+                    </div>
+                    <br>
+                </div>
+                <h4>3. Hinzufügen von Terminen/Ereignisen</h4>
+                <div class="text-block">
+                    Im Bereich Terminverwaltung findet sich eine Übersich der angelegten Termine.
+                    Momentan sind 4 verschiedene Arten von Terminen verfügbar (Übung, Einsaz, Übungsanlage, Unterweisung).
+                    Neue Termine können im Reiter Termin hinzufügen erstellt werden.
+                    Hierfür sind ein Titel, ein Typ (Übung, Einsaz, Übungsanlage, Unterweisung), ein Datum, sowie die daran beteiligten Mitglieder
+                    hinzuzufügen.
+                    Mit dem Button Löschen werden ausgwählte Termine entfernt.
+                    Die Erstellung von Terminen beeinflusst die Infoanzeige in der Mitgliederverwaltung, welche angibt, welche verpflichtenden Termine von
+                    dem jeweiligen Mitglied wahrgenommen wurden.
+                    <div class="mdl-grid">
+                        <div class = "mdl-cell mdl-cell--6-col graybox">
+                            <img src="images/Appointmentmanagement.png"height="300" width="350">
+                        </div>
+                        <div class = "mdl-cell mdl-cell--6-col graybox">
+                            <img src="images/Addappointment.png" height="300" width="300">
+                        </div>
+                </div>
+            </div>
+            <h4>4. Dashboard</h4>
+             <div class="text-block">
+                Ist ein Benutzer eingeloggt wird er sofort auf das Dashboard weitergeleitet, welches wichtige Informationen, wie
+                die Anzahl der Mitglieder, Mitglieder, welche einsatzbereit sind und der nächste Termin.
+                Auf das Dashboard gelangt man auch durch klicken auf den "Home" Reiter.
+                    <center><img src="images/Dashboard.jpg" height="300" width="500"></center>
+             </div>
+             <h4>5. Logout</h4>
+             <div class="text-block">
+                Durch Klicken auf den Reiter Logout wird der Benutzer ausgeloggt und zur Startseite weitergeleitet.
+                    <center><img src="images/Logout.png" height="300" width="300"></center>
+             </div>
+             </form>
+         </main>
+      </div>
+
+   </body>
+</html>
