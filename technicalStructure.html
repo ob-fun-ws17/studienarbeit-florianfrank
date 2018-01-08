@@ -22,7 +22,8 @@
                 <a class = "mdl-navigation__link" href = "installationAndConfig.html">Installation und Konfiguration</a>
                 <a class = "mdl-navigation__link" href = "technicalStructure.html">Technischer Aufbau</a>
                 <a class = "mdl-navigation__link" href = "userManual.html">Anleitung</a>
-                <a class = "mdl-navigation__link" href = "">Haddock</a>
+                <a class = "mdl-navigation__link" href = "haddock.html">Haddock</a>
+                <a class = "mdl-navigation__link" href = "http://localhost:8080"> Zurück zur Anwendung</a>
             </nav>
          </div>
 
@@ -31,7 +32,44 @@
                <h3>Technischer Aufbau</h3>
              </hgroup>
              <form>
-
+                 <h4>1. Verwendete Technologien</h4>
+                 <div class="text-block">
+                     Die Anwendung wurde fast ausschließlich in Haskell implementiert und wird durch die <b>Atemschutzterminplaner.cable</b>-Datei
+                     konfiguriert. Diese legt fest, welche Module zur Applikation gehören, sowie, welche externen Pakete zur Anwendung gelinkt werden müssen.
+                     Der Kern der Anwendung ist ein Web-/RESTServer welcher mittels des <a href="https://www.spock.li">Spock Frameworks</a> implementiert wurde.
+                     Für das Ablegen von Mitglieder, Terminen, Benutzern, sowie Sessionkeys für Login und Logout wird eine SQLite Datenbank eingesetzt.
+                     Die Kommunikation wird durch Funktionen aus dem Paket
+                     <a href="https://hackage.haskell.org/package/persistent-sqlite-0.0.0/docs/Database-Persist-Sqlite.html">Database.Persist.SQlite</a> implementiert.
+                     Für das Design wird css verwendet. Die verschiedenen Designelemente sind dabei an Elemente von
+                      <a href="https://getmdl.io">Google Material Design Lite</a>  angelehnt.
+                     Für diverse Animationen und dem Auslesen von Benutzereingaben wird Javascript eingesetzt.
+                     <center><img src="images/technologies.png" height="300" width="700"></center>
+                 </div>
+                <h4>2. Aufbau</h4>
+                <div class="text-block">
+                    Die Applikation orientiert sich am Entwurfsmuster
+                    MVC (<b>M</b>odel <b>V</b>iew <b>C</b>ontroller). Im Ordner <b>Control</b> befinden sich alle zur Steuerung benötigten Module.
+                    Das Kernstück bildet hierbei das Modul <b>App</b>, dieses enthält den Web- und RESTServer welcher mittels des Spock Frameworks
+                    realisiert wurde. Zudem wird hier die Konfigurationsdatei ausgelesen und somit die Einstellungen des Webservers festgelegt,
+                    die Dabei möglichen Parameter werden im Modul <b>Config</b> spezifiziert.
+                    Das Modul stellt einen Webserver bereit und wechselt anhand der eingehenden HTTP-Requests die Anzeigen, welche im Ordner
+                    <b>Web/Views</b> untergebracht sind. Alle View-Module greifen Dabei auf das "Hauptmodul" <b>Home</b> zu, dieses gibt den grundsätzlichen
+                    Aufbau aller View-Module vor.
+                    Zudem wird ein RESTServer zur Verfügung gestellt, dieser nimmt Requests an und leitet diese an das Modul <b>DatabaseSrv</b> weiter.
+                    In diesem Modul findet die gesamte Kommunikation mit der Sqlite Datenbank, sowie das Packen und Entpacken von JSON Paketen statt.
+                    Diese werden dann wieder an den Webserver gegeben, dieser leitet diese als Response an den Sender zurück.
+                    Wie verschiedene JSON Pakete aufgebaut sind entnimmt der Webserver dabei dem Modul <b>RESTDatatypes</b>, dieses ist von der Geschäftslogik
+                    entkoppelt und kümmert sich nur um die Darstellung der Daten. Deshalb ist dieses Modul im Ordner <b>Model</b> abgelegt.
+                    Im Ordner <b>static</b> sind die für die Anwendung benötigten <b>css</b> und <b>Javascript</b> Dateien abgelegt. Die css-Dateien legen
+                    das Design der Anwendung fest. Javascript wird für die Animationen der Eingabefelder benötigt, sowie zum Auslesen von Eingabefeldern,
+                    dem Packen dieser Daten in JSON-Pakete und übermitteln an den Spock-RESTServer.
+                    <br>
+                    <center><img src="images/MVC.png" height="600" width="700"></center>
+                </div>
+                <br>
+                <h4>3. Testen</h4>
+                <div class="text-block">
+                </div>
              </form>
          </main>
       </div>
