@@ -37,6 +37,7 @@ getMenuBarBody =
                 H.a ! A.class_ "mdl-navigation__link" ! A.href "/membermanagement" $ "Mitgliederverwaltung"
                 H.a ! A.class_ "mdl-navigation__link" ! A.href "/appointmentmanagement" $ "Terminverwaltung"
                 H.a ! A.class_ "mdl-navigation__link" ! A.href "/impressum" $ "Impressum"
+                H.a ! A.class_ "mdl-navigation__link" ! A.href "https://ob-fun-ws17.github.io/studienarbeit-florianfrank/" $ "Projekt Website"
                 H.a ! A.class_ "mdl-navigation__link" ! A.href "logout" $ "Logout"
 
 
