@@ -30,3 +30,6 @@ type Api ctx = SpockCtxM ctx SqlBackend SessionVal State ()
 
 -- | Spock API action
 type ApiAction ctx a = SpockActionCtx ctx SqlBackend SessionVal State a
+
+-- | DBAction
+type DBAction ctx a = ActionCtxT ctx (WebStateM SqlBackend SessionVal State) a

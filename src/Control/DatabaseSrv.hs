@@ -30,7 +30,7 @@ import           GHC.Generics
 import qualified Data.Text as T
 
 -- | Function to run all sql querys
-runSQL :: (HasSpock m, SpockConn m ~ SqlBackend)  
+runSQL :: (HasSpock m, SpockConn m ~ SqlBackend)
     => SqlPersistT (NoLoggingT (ResourceT IO)) a
     -> m a
 runSQL action =
@@ -40,6 +40,7 @@ runSQL action =
 
 
 -- | add user to database
+registerUser:: DBAction ctx a
 registerUser = do
     maybeLogin <- jsonBody :: ApiAction ctx (Maybe Login)
     case maybeLogin of
@@ -50,6 +51,7 @@ registerUser = do
 
 
 -- | set insert sessionKey into database
+loginUser:: DBAction ctx a
 loginUser = do
     maybeLogin <- jsonBody :: ApiAction ctx (Maybe Login)
     case maybeLogin of
@@ -64,6 +66,7 @@ loginUser = do
 
 
 -- | remove sessionkey
+logoutUser:: DBAction ctx a
 logoutUser = do
     maybeSessionKey <- jsonBody ::ApiAction ctx (Maybe Session)
     case maybeSessionKey of
@@ -74,6 +77,7 @@ logoutUser = do
 
 
 -- | Function to add members to database
+addMember:: DBAction ctx a
 addMember = do
     maybeMember <- jsonBody :: ApiAction ctx (Maybe Member)
     case maybeMember of
@@ -84,6 +88,7 @@ addMember = do
 
 
 -- | Get all members from database
+getMembers:: DBAction ctx a
 getMembers = do
     maybeTest <- jsonBody :: ApiAction ctx (Maybe Member)
     members <- runSQL $ P.selectList [] [Asc MemberName]
@@ -91,6 +96,7 @@ getMembers = do
 
 
 -- | Delete member from database
+deleteMembers:: DBAction ctx a
 deleteMembers = do
     maybeMembers <- jsonBody ::ApiAction ctx (Maybe Memberlist)
     case maybeMembers of
@@ -100,6 +106,7 @@ deleteMembers = do
 
 
 -- | recursive helperfunction to delete members
+deleteMembers':: [Member] -> DBAction ctx a
 deleteMembers' (x:xs) = do
     selectAndDeleteMembers (x)
     deleteMembers' (xs)
@@ -110,12 +117,14 @@ deleteMembers' [] = text ""
 
 
 -- | Select and delete member by name, surname, birthDay, birthMonth, birthYear
+selectAndDeleteMembers:: Member -> DBAction ctx a
 selectAndDeleteMembers (Member n sn bd bm by _ _ _ _ _) = do
     newId <- runSQL $ P.deleteBy (UniqueMember n sn bd bm by)
     json $ object ["result" .= String "success", "id" .= newId]
 
 
 -- | Function to add appointment to database
+addAppointment:: DBAction ctx a
 addAppointment = do
     maybeAppointment <- jsonBody :: ApiAction ctx (Maybe Appointment)
     case maybeAppointment of
@@ -126,6 +135,7 @@ addAppointment = do
 
 
 -- | Function to delete appointment from database
+deleteAppointments:: DBAction ctx a
 deleteAppointments = do
     maybeAppointment <- jsonBody ::ApiAction ctx (Maybe Appointmentlist)
     case maybeAppointment of
@@ -135,6 +145,7 @@ deleteAppointments = do
 
 
 -- | delete appointments recursion helper function
+deleteAppointments':: [Appointment] -> DBAction ctx a
 deleteAppointments' (x:xs) = do
     selectAndDeleteAppointments (x)
     deleteAppointments' (xs)
@@ -145,12 +156,14 @@ deleteAppointments' [] = text ""
 
 
 -- | select appointment by title, tpye, day month, year an hour
+selectAndDeleteAppointments:: Appointment -> DBAction ctx a
 selectAndDeleteAppointments (Appointment ti ty d mo y h mi me) = do
     newId <- runSQL $ P.deleteBy (UniqueAppointment ti d mo y h)
     json $ object ["result" .= String "success", "id" .= newId]
 
 
 -- | udpate members
+updateMembers:: DBAction ctx a
 updateMembers = do
     maybeMemberUpdate <- jsonBody ::ApiAction ctx (Maybe Membersupdate)
     case maybeMemberUpdate of
@@ -160,12 +173,19 @@ updateMembers = do
 
 
 -- | Helperfunction to update member
+updateMembers':: T.Text
+   -> [T.Text]
+   -> [T.Text]
+   -> DBAction ctx a
 updateMembers' ty (x:xs) (x2:x2s)= do
     updateMembers'' ty (x, x2)
     updateMembers' ty xs x2s
 
 
 -- | Helpfunction to update member
+updateMembers'':: T.Text
+     -> (T.Text, T.Text)
+     -> DBAction ctx a
 updateMembers'' ty (membersurname, membername) =
         if (ty == "Übung" || ty == "Einsatz") then do
             newID <- runSQL $ P.updateWhere [MemberName ==. membername, MemberSurName ==. membersurname] [MemberExerciseCheck =. 1]
