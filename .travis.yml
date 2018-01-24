@@ -29,4 +29,5 @@ addons:
 
 script:
   - cabal update
+  - cabal install happy
   - stack --no-terminal --skip-ghc-check test
