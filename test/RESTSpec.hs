@@ -1,16 +1,19 @@
-
+{-# LANGUAGE OverloadedStrings #-}
 module RESTSpec (spec) where
 
-import Model.RESTDatatypes (dateToString, timeToString)
+import Model.RESTDatatypes
 
 import Test.Hspec
 import Test.QuickCheck
 
+import Data.Int
 import Web.Spock.Config
 import Control.Monad.Logger
+import Database.Persist.Class
+import Database.Persist
 import Database.Persist.Sqlite
+import Database.Persist.TH
 import Web.Spock (spockAsApp, spock)
-
 
 spec:: Spec
 spec =
@@ -23,3 +26,4 @@ spec =
             timeToString (22, 33) `shouldBe` "22:33"
         it "timeToString tupel (3,0) should be 22:33" $
             timeToString (3, 0) `shouldBe` "03:00"
+        --it "membersReady [Member \"Max\" \"Mustermann\" 1 1 1990 30 1 2029 1 1 1, Member \"Petra\" \"Wagner\" 1 1 1990 30 1 2017 1 1 1]" $

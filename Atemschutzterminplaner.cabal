@@ -4,8 +4,8 @@ synopsis:            Short description of your package
 homepage:            https://github.com/ob-fun-ws17/studienarbeit-florianfrank/#readme
 license:             BSD3
 license-file:        LICENSE
-author:              Author name here
-maintainer:          example@example.com
+author:              Florian Fran
+maintainer:          ffrank@hm.edu
 copyright:           2017 Author name here
 category:            Web
 build-type:          Simple
@@ -81,12 +81,19 @@ test-suite Atemschutzterminplaner-test
   build-depends:       base
                      , Atemschutzterminplaner
                      , hspec
+                     , hspec-wai
+                     , hspec-wai-json
                      , QuickCheck
                      , monad-logger
                      , monad-logger
                      , persistent-sqlite
+                     , persistent
+                     , persistent-template
+                     , aeson
+                     , bytestring
                      , Spock >=0.12
-
+  exposed-modules:     RESTSpec
+                     , DatabaseSrvSpec
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
 
