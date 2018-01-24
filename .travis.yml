@@ -29,5 +29,4 @@ addons:
 
 script:
   - cabal update
-  - cabal install spock
   - stack --no-terminal --skip-ghc-check test
