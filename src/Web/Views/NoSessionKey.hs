@@ -18,4 +18,4 @@ viewNoSessionKey = docTypeHtml $ do
             getMenuBarBody
             H.hgroup $ do
                 H.form $ do
-                    H.h3 "Kein Zugriff, Sie müssen sich zuerst einloggen"
+                    H.h3 "Kein Zugriff. Sie müssen sich zuerst einloggen."
