@@ -1,16 +1,9 @@
 {-# LANGUAGE OverloadedStrings          #-}
-{-# LANGUAGE EmptyDataDecls             #-}
-{-# LANGUAGE FlexibleContexts           #-}
-{-# LANGUAGE FlexibleInstances          #-}
-{-# LANGUAGE GADTs                      #-}
-{-# LANGUAGE GeneralizedNewtypeDeriving #-}
-{-# LANGUAGE MultiParamTypeClasses      #-}
-{-# LANGUAGE QuasiQuotes                #-}
-{-# LANGUAGE TemplateHaskell            #-}
-{-# LANGUAGE TypeFamilies               #-}
 -- | Module starts Web and Restserice such as the Databaseserver
-module Control.App where
+module Control.App
+    (parseConfig, init_view, app) where
 
+-- import internal Datatypes
 import Model.RESTDatatypes
 import Model.Config
 import Control.DatabaseSrv
@@ -24,27 +17,17 @@ import Web.Views.AddMember
 import Web.Views.AddAppointment
 import Web.Views.NoSessionKey
 
-import Web.Spock
+-- import external Datatypes
 import Web.Spock.Config
 import Web.Spock hiding (SessionId)
-
 import Control.Monad.Trans
-import Control.Monad.Trans.Resource
-import Control.Monad.Logger
 import Data.Monoid
 import Network.Wai.Middleware.Static
 import Text.Blaze.Html (Html, toHtml)
 import Text.Blaze.Html.Renderer.Utf8 (renderHtml)
-import Data.IORef
-import           Data.Aeson       hiding (json)
-import           GHC.Generics
-import qualified Data.Text as T
-
 import           Control.Monad.Logger    (LoggingT, runStdoutLoggingT)
-import           Database.Persist        hiding (get) -- To avoid a naming clash with Web.Spock.get
 import qualified Database.Persist        as P         -- We'll be using P.get later for GET /people/<id>.
 import           Database.Persist.Sqlite hiding (get)
-import           Database.Persist.TH
 import qualified Data.Configurator as C
 
 
