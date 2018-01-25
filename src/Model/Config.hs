@@ -1,13 +1,11 @@
 -- | Module contains data to cofigure database and REST service
 module Model.Config where
 
-import Web.Spock
-import Web.Spock.Config
-import Web.Spock hiding (SessionId)
-import qualified Data.Text as T
-import           Database.Persist        hiding (get) -- To avoid a naming clash with Web.Spock.get
-import qualified Database.Persist        as P         -- We'll be using P.get later for GET /people/<id>.
-import           Database.Persist.Sqlite hiding (get)
+-- import external modules
+import              Web.Spock
+import              Web.Spock.Config
+import qualified    Data.Text as T
+import              Database.Persist.Sqlite hiding (get)
 
 -- | Spock state
 data State

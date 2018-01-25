@@ -1,5 +1,5 @@
-{-# LANGUAGE EmptyDataDecls             #-}
-{-# LANGUAGE FlexibleContexts           #-}
+--{-# LANGUAGE EmptyDataDecls             #-}
+--{-# LANGUAGE FlexibleContexts           #-}
 {-# LANGUAGE FlexibleInstances          #-}
 {-# LANGUAGE GADTs                      #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
@@ -10,12 +10,12 @@
 -- | Module contains all datatypes used by the REST service and functions to parse all ready members and strings
 module Model.RESTDatatypes where
 
-import           Database.Persist.TH
-import qualified Data.Text as T
-import Data.List as L
-import Data.Time.Clock
-import Data.Time.Calendar
-import Database.Persist.Sqlite hiding (get)
+import              Database.Persist.TH
+import qualified    Data.Text as T
+import              Data.List as L
+import              Data.Time.Clock
+import              Data.Time.Calendar
+import              Database.Persist.Sqlite hiding (get)
 
 -- | All REST Datatypes which can be packed into json und unpacked
 share [mkPersist sqlSettings, mkMigrate "migrateAll"] [persistLowerCase|
