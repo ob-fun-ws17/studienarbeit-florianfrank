@@ -40,7 +40,7 @@ spec =
                      get "/createTable" `shouldRespondWith` 200
           describe "GET /appointmentmanagement" $
                 do it "Test if AppointmentManagement is not available if user is not logged in!" $ do
-                       s <- liftIO $ readFile "test/testfiles/appointmentmanagementTest.txt"
+                       --s <- liftIO $ readFile "test/testfiles/appointmentmanagementTest.txt"
                        get "/appointmentmanagement" `shouldRespondWith` 200 -- "" { matchStatus = 200 , matchBody = (fromString (s) :: MatchBody)}
           describe "GET /membermanagement" $
                  do it "Test if AppointmentManagement is not available if user is not logged in!" $ do
