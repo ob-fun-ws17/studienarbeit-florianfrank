@@ -1,11 +1,14 @@
 {-# LANGUAGE OverloadedStrings #-}
 -- | Module shows Logout view
-module Web.Views.Logout where
+module Web.Views.Logout
+    (viewLogout) where
 
-import Web.Views.Home
+-- import internal modules
+import Web.Views.Home -- Home contains function to create menu
+
+-- import external modules
 import Text.Blaze.Html5 as H
 import Text.Blaze.Html5.Attributes as A
-import qualified Data.Text as T
 
 
 -- | create logout html page

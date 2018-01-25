@@ -1,18 +1,16 @@
 {-# LANGUAGE OverloadedStrings #-}
 -- | Module includes menubar shows dashboard and login
-module Web.Views.Home where
+module Web.Views.Home
+    (getMenuBarHeader, getMenuBarBody, viewLogin, viewDashboard) where
 
-import Model.RESTDatatypes
+-- import internal modules
+import              Model.RESTDatatypes
 
-import Data.List as L
-import Control.Monad.IO.Class
-import Control.Monad (forM_)
-import Text.Blaze.XHtml5 ((!))
-import qualified Text.Blaze.Bootstrap as H
-import Text.Blaze.Html5 as H
-import Text.Blaze.Html5.Attributes as A
-import Text.Blaze.Html (Html, toHtml)
-import Database.Persist.Sqlite hiding (get)
+-- import external modules
+import              Text.Blaze.Html5 as H
+import qualified    Text.Blaze.Html5.Attributes as A
+import              Database.Persist (Entity(..))
+import qualified    Data.List as L
 
 
 -- | create menu bar header html element
@@ -94,14 +92,14 @@ viewDashboard membersList readyMembersList appointmentList = do
                                 H.h2 ! A.class_ "mdl-card__title-text" $ do
                                     H.h4 "Anzahl Atemschutzgeräteträger"
                             H.div ! A.class_ "mdl-card__supporting-text" $ do
-                                    H.h5 $  toHtml (L.length membersList)
+                                    H.h5 $  H.toHtml (L.length membersList)
                     H.div ! A.class_ "mdl-cell mdl-cell--6-col graybox" $ do
                         H.div ! A.class_ "square-card mdl-card mdl-shadow--2dp" $ do
                             H.div ! A.class_ "mdl-card__title" $ do
                                 H.h2 ! A.class_ "mdl-card__title-text" $ do
                                     H.h4 "Einsatzbereite Geräteträger"
                             H.div ! A.class_ "mdl-card__supporting-text" $ do
-                                H.h5 $ toHtml (L.length readyMembersList)
+                                H.h5 $ H.toHtml (L.length readyMembersList)
                 H.div ! A.class_ "mdl-grid" $ do
                     H.div ! A.class_ "mdl-cell mdl-cell--6-col graybox" $ do
                         H.div ! A.class_ "square-card mdl-card mdl-shadow--2dp nextAppointmentCard" $ do
@@ -110,11 +108,11 @@ viewDashboard membersList readyMembersList appointmentList = do
                                     H.h4 "Nächster Termin"
                             if (L.length appointmentList >= 1) then
                                 H.div ! A.class_ "mdl-card__supporting-text" $ do
-                                        H.b $ toHtml (appointmentTitle (entityVal (appointmentList!!0)))
+                                        H.b $ H.toHtml (appointmentTitle (entityVal (appointmentList!!0)))
                                         H.br
-                                        toHtml (appointmentType (entityVal (appointmentList!!0)))
+                                        H.toHtml (appointmentType (entityVal (appointmentList!!0)))
                                         H.br
-                                        toHtml (dateToString (appointmentMonth (entityVal (appointmentList!!0)), appointmentDay (entityVal (appointmentList!!0)), appointmentYear (entityVal (appointmentList!!0))))
+                                        H.toHtml (dateToString (appointmentMonth (entityVal (appointmentList!!0)), appointmentDay (entityVal (appointmentList!!0)), appointmentYear (entityVal (appointmentList!!0))))
                             else
                                 H.div ! A.class_ "mdl-card__supporting-text" $ do
-                                    H.b $ text "Keine ausstehenden Termine"
+                                    H.b $ H.text "Keine ausstehenden Termine"

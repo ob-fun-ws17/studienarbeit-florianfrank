@@ -1,11 +1,14 @@
 {-# LANGUAGE OverloadedStrings #-}
 -- | Module shows Impressum View
-module Web.Views.Impressum where
+module Web.Views.Impressum
+    (viewImpressum) where
 
-import Web.Views.Home
-import Text.Blaze.Html5 as H
-import Text.Blaze.Html5.Attributes as A
-import qualified Data.Text as T
+-- import internal modules
+import              Web.Views.Home -- Home contains function to create menu
+
+-- import external modules
+import              Text.Blaze.Html5 as H
+import qualified    Text.Blaze.Html5.Attributes as A
 
 
 -- | create impressum html page
@@ -20,4 +23,4 @@ viewImpressum = docTypeHtml $ do
             H.hgroup $ do
                 H.h3 "Impressum"
                 H.form $ do
-                    text "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labor"
+                    H.text "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labor"

@@ -1,17 +1,17 @@
 {-# LANGUAGE OverloadedStrings #-}
 -- | Module shows AppointmentManagement
-module Web.Views.AppointmentManagement where
+module Web.Views.AppointmentManagement
+    (viewAppointmentManagement, viewTableHead, viewTableBody) where
 
-import Web.Views.Home
-import Model.RESTDatatypes
-import Text.Blaze.Html5 as H
-import Text.Blaze.Html5.Attributes as A
-import Data.List as L
-import qualified Data.Text as T
-import           Database.Persist        hiding (get) -- To avoid a naming clash with Web.Spock.get
-import qualified Database.Persist        as P         -- We'll be using P.get later for GET /people/<id>.
-import           Database.Persist.Sqlite hiding (get)
-import           Database.Persist.TH
+-- import internal modules
+import              Web.Views.Home -- Home contains function to create menu
+import              Model.RESTDatatypes
+
+-- import external modules
+import              Text.Blaze.Html5 as H
+import              Text.Blaze.Html5.Attributes as A
+import qualified    Data.Text as T
+import              Database.Persist (Entity(..))
 
 
 -- | create AppointmentManagement HTML page
@@ -56,6 +56,7 @@ viewTableBody :: [Entity Appointment]    -- ^ all appointments
 viewTableBody mem = H.tbody $ do
         viewTableBody' (mem)
 
+
 -- | recursive table body helper function
 viewTableBody' :: [Entity Appointment]   -- ^ all appointments
     -> H.Html                            -- ^ html page
@@ -71,12 +72,14 @@ viewTableBody' (x:xs) = do
 -- | recursive table body helper function
 viewTableBody' [] = H.h1 ""
 
+
 -- | convert list of members to a single string
 membersToString :: [T.Text]  -- ^ members to convert
     -> H.Html                -- ^ html page
 membersToString (x:xs) = do
         H.pre $  toHtml x
         membersToString(xs)
+
 
 -- | recursive name to string helper function
 membersToString [] = H.h1 ""

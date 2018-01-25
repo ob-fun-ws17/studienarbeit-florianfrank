@@ -1,16 +1,17 @@
 {-# LANGUAGE OverloadedStrings #-}
 -- | Module shows MemberManagement view
-module Web.Views.MemberManagement where
+module Web.Views.MemberManagement
+    (viewMemberManagement) where
 
-import Web.Views.Home
-import Model.RESTDatatypes
-import Text.Blaze.Html5 as H
-import Text.Blaze.Html5.Attributes as A
-import Data.List as L
-import           Database.Persist        hiding (get) -- To avoid a naming clash with Web.Spock.get
-import qualified Database.Persist        as P         -- We'll be using P.get later for GET /people/<id>.
-import           Database.Persist.Sqlite hiding (get)
-import           Database.Persist.TH
+-- import internal modules
+import                  Web.Views.Home -- Home contains function to create menu
+import                  Model.RESTDatatypes
+
+-- import external modules
+import                  Text.Blaze.Html5 as H
+import qualified        Text.Blaze.Html5.Attributes as A
+import qualified        Data.List as L
+import                  Database.Persist (Entity(..))
 
 
 -- | create MemberManagement html page

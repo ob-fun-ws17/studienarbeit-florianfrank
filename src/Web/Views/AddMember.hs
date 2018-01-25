@@ -1,15 +1,14 @@
 {-# LANGUAGE OverloadedStrings #-}
 -- | Module shows AddMember view
-module Web.Views.AddMember where
+module Web.Views.AddMember
+    (viewAddMember) where
 
-import Web.Views.Home
+-- import internal modules
+import Web.Views.Home -- Home contains function to create menu
 
-import Control.Monad (forM_)
-import Text.Blaze.XHtml5 ((!))
-import qualified Text.Blaze.Bootstrap as H
+-- import external modules
 import Text.Blaze.Html5 as H
 import Text.Blaze.Html5.Attributes as A
-import Text.Blaze.Html (Html, toHtml)
 
 
 -- | create addMember Html Page
@@ -26,7 +25,6 @@ viewAddMember = docTypeHtml $ do
         H.script ! A.src "https://code.jquery.com/ui/1.12.1/jquery-ui.js" ! A.type_ "text/javascript" $ ""
         H.script "$( function() {$( '#datepickerBirthD' ).datepicker();} );"
         H.script "$( function() {$( '#datepickerExamation' ).datepicker();} );"
-
     H.body $ do
         H.div ! A.class_  "mdl-layout mdl-js-layout mdl-layout--fixed-drawer" $ do
             getMenuBarBody

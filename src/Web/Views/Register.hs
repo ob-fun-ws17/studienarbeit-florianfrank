@@ -1,15 +1,16 @@
 {-# LANGUAGE OverloadedStrings #-}
 -- | Module shows Register View
-module Web.Views.Register where
+module Web.Views.Register
+    (viewRegister) where
 
-import Web.Views.Home
+-- import internal Modules
+import Web.Views.Home -- Home contains function to create menu
 
-import Control.Monad (forM_)
-import Text.Blaze.XHtml5 ((!))
-import qualified Text.Blaze.Bootstrap as H
-import Text.Blaze.Html5 as H
-import Text.Blaze.Html5.Attributes as A
-import Text.Blaze.Html (Html, toHtml)
+-- import external modules
+import                  Text.Blaze.Html5 as H
+import qualified        Text.Blaze.Html5.Attributes as A
+import                  Text.Blaze.Html (Html, toHtml)
+
 
 -- | create register html page
 viewRegister :: H.Html  -- ^ html page

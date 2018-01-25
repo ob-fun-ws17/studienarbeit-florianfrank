@@ -1,11 +1,15 @@
 {-# LANGUAGE OverloadedStrings #-}
 -- | Module shows NoSessionKeyView
-module Web.Views.NoSessionKey where
+module Web.Views.NoSessionKey
+    (viewNoSessionKey) where
 
-import Web.Views.Home
+-- import internal modules
+import Web.Views.Home -- Home contains function to create menu
+
+-- import external modules
 import Text.Blaze.Html5 as H
 import Text.Blaze.Html5.Attributes as A
-import qualified Data.Text as T
+
 
 -- | create nosessionkey html page
 viewNoSessionKey :: H.Html  -- ^ html page

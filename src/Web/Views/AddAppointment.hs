@@ -1,17 +1,18 @@
 {-# LANGUAGE OverloadedStrings #-}
 -- | Module shows AddAppointment View
-module Web.Views.AddAppointment where
+module Web.Views.AddAppointment
+    (addAppointmentView) where
 
-import Web.Views.Home
-import Model.RESTDatatypes
+-- import internal modules
+import          Web.Views.Home -- Home contains function to create menu
+import          Model.RESTDatatypes
 
-import Text.Blaze.Html5 as H
-import Text.Blaze.Html5.Attributes as A
+
+-- import external module
+import           Text.Blaze.Html5 as H
+import           Text.Blaze.Html5.Attributes as A
 import qualified Data.Text as T
-import           Database.Persist        hiding (get) -- To avoid a naming clash with Web.Spock.get
-import qualified Database.Persist        as P         -- We'll be using P.get later for GET /people/<id>.
-import           Database.Persist.Sqlite hiding (get)
-import           Database.Persist.TH
+import           Database.Persist (Entity(..))
 
 
 -- | Create add appointment html page
