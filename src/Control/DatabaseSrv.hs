@@ -1,32 +1,23 @@
-{-# LANGUAGE EmptyDataDecls             #-}
-{-# LANGUAGE FlexibleContexts           #-}
-{-# LANGUAGE FlexibleInstances          #-}
 {-# LANGUAGE GADTs                      #-}
-{-# LANGUAGE GeneralizedNewtypeDeriving #-}
-{-# LANGUAGE MultiParamTypeClasses      #-}
-{-# LANGUAGE QuasiQuotes                #-}
-{-# LANGUAGE TemplateHaskell            #-}
-{-# LANGUAGE TypeFamilies               #-}
 {-# LANGUAGE OverloadedStrings          #-}
 -- | Module contains all databasefunctions
-module Control.DatabaseSrv where
+module Control.DatabaseSrv
+    (runSQL, registerUser, loginUser, logoutUser, addMember, getMembers,
+    deleteMembers, addAppointment, deleteAppointments, updateMembers) where
 
+-- import internal modules
 import Model.RESTDatatypes
 import Model.Config
 
+-- import external Module
 import Web.Spock.Config
 import Web.Spock
-
-import           Control.Monad.Logger    (LoggingT, runStdoutLoggingT)
-import           Database.Persist        hiding (get) -- To avoid a naming clash with Web.Spock.get
-import qualified Database.Persist        as P         -- We'll be using P.get later for GET /people/<id>.
+import qualified Database.Persist        as P
 import           Database.Persist.Sqlite hiding (get)
 import           Database.Persist.TH
 import           Control.Monad.Logger
 import           Control.Monad.Trans.Resource
-import           Data.IORef
 import           Data.Aeson       hiding (json)
-import           GHC.Generics
 import qualified Data.Text as T
 
 -- | Function to run all sql querys
