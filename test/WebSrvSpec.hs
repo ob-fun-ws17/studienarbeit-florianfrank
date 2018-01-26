@@ -53,14 +53,14 @@ spec =
                 do it "Test if register is available!" $ do
                         get "/register" `shouldRespondWith`  200
           describe "POST register" $
-                do it "Test if registration works! (Set mail:\"Test@test.de\", password: \"Test\")" $ do
+                do it "Test if registration works! (Set mail:\"Test@test.de\", password: \"Test\", (Hash: -9045014743692993354))" $ do
                         post "register" [J.json|{mail: "Test@test.de" ,password: "Test"}|] `shouldRespondWith`  "{\"result\":\"success\",\"id\":1}" {matchStatus = 200}
           describe "POST login" $
                 do it "Test if login is impossible when using false password! (Get mail:\"Test@test.de\", password: \"Test2\")" $ do
                         post "login" [J.json|{mail: "Test@test.de" ,password: "Test2"}|] `shouldRespondWith`  "{\"error\":{\"code\":2,\"message\":\"Could not find a person with matching id\"},\"result\":\"failure\"}" {matchStatus = 200}
           describe "POST login" $
                 do it "Test if login is possible! (Get mail:\"Test@test.de\", password: \"Test\")" $ do
-                        post "login" [J.json|{mail: "Test@test.de" ,password: "Test"}|] `shouldRespondWith` "{\"password\":\"Test\",\"id\":1,\"mail\":\"Test@test.de\"}" {matchStatus = 200}
+                        post "login" [J.json|{mail: "Test@test.de" ,password: "Test"}|] `shouldRespondWith` "{\"password\":\"-9045014743692993354\",\"id\":1,\"mail\":\"Test@test.de\"}" {matchStatus = 200}
           describe "POST addMember" $
                 do it "Test addMember Works with {name: \"Mustermann\" ,surName: \"Max\", birthDay: 31, \
                             \ birthMonth: 8, birthYear: 1993, examationDay: 1, examationMonth: 2, examationYear: 2019, \

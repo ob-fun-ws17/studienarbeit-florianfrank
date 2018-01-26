@@ -18,17 +18,17 @@ import Web.Views.AddAppointment
 import Web.Views.NoSessionKey
 
 -- import external Datatypes
-import Web.Spock.Config
-import Web.Spock hiding (SessionId)
-import Control.Monad.Trans
-import Data.Monoid
-import Network.Wai.Middleware.Static
-import Text.Blaze.Html (Html, toHtml)
-import Text.Blaze.Html.Renderer.Utf8 (renderHtml)
-import           Control.Monad.Logger    (LoggingT, runStdoutLoggingT)
-import qualified Database.Persist        as P         -- We'll be using P.get later for GET /people/<id>.
-import           Database.Persist.Sqlite hiding (get)
-import qualified Data.Configurator as C
+import                  Web.Spock.Config
+import                  Web.Spock hiding (SessionId)
+import                  Control.Monad.Trans
+import                  Data.Monoid
+import                  Network.Wai.Middleware.Static
+import                  Text.Blaze.Html (Html, toHtml)
+import                  Text.Blaze.Html.Renderer.Utf8 (renderHtml)
+import                  Control.Monad.Logger    (LoggingT, runStdoutLoggingT)
+import qualified        Database.Persist        as P         -- We'll be using P.get later for GET /people/<id>.
+import                  Database.Persist.Sqlite hiding (get)
+import qualified        Data.Configurator as C
 
 
 -- | Initalizes the Spock server
@@ -63,14 +63,7 @@ app :: Api ()    -- ^ Return Api()
 app =
     do middleware (staticPolicy (addBase "static"))
        get root $ do
-           sessionKey <- runSQL $ P.getBy (UniqueSession 0)
-           case sessionKey of
-               Nothing -> blaze $ viewLogin
-               Just session -> do
-                   now <- liftIO $ localTime
-                   members <- runSQL $ P.selectList [] [Asc MemberName]
-                   appointments <- runSQL $ P.selectList [] [Asc AppointmentYear, Asc AppointmentMonth, Asc AppointmentYear]
-                   blaze $ viewDashboard members (membersReady members now) (appointmentsInFuture appointments now)
+           blaze $ viewLogin
        get "/home" $ do
            sessionKey <- runSQL $ P.getBy (UniqueSession 0)
            case sessionKey of
@@ -99,7 +92,8 @@ app =
             blaze $ viewLogout
        get "/impressum" $
             blaze $ viewImpressum
-       get "/register" $
+       get "/register" $ do
+            runSQL $ runMigration migrateAll
             blaze $ viewRegister
        get "/addMember" $ do
            sessionKey <- runSQL $ P.getBy (UniqueSession 0)

@@ -19,6 +19,7 @@ import           Control.Monad.Logger
 import           Control.Monad.Trans.Resource
 import           Data.Aeson       hiding (json)
 import qualified Data.Text as T
+import Data.Hashable
 
 -- | Function to run all sql querys
 runSQL :: (HasSpock m, SpockConn m ~ SqlBackend)
@@ -36,8 +37,8 @@ registerUser = do
     maybeLogin <- jsonBody :: ApiAction ctx (Maybe Login)
     case maybeLogin of
         Nothing -> errorJson 1 "Failed to parse request body as Login Data"
-        Just login -> do
-            newId <- runSQL $ insert login
+        Just Login {loginMail = m, loginPassword = p} -> do
+            newId <- runSQL $ insert (Login m $ T.pack $ show $ hash p)
             json $ object ["result" .= String "success", "id" .= newId]
 
 
@@ -48,7 +49,7 @@ loginUser = do
     case maybeLogin of
         Nothing -> errorJson 2 "No Logindata received"
         Just Login{loginMail = m, loginPassword = p}-> do
-             maybeLoginDB <- runSQL $ P.getBy (UniqueLogin  m p)
+             maybeLoginDB <- runSQL $ P.getBy (UniqueLogin  m $ T.pack $ show $ hash p)
              case maybeLoginDB of
                 Nothing -> errorJson 2 "Could not find a person with matching id"
                 Just loginDB -> do
