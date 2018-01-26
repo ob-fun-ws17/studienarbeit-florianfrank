@@ -93,6 +93,36 @@ spec =
                           birthMonth: 8, birthYear: 1993, examationDay: 22, examationMonth: 11, examationYear: 2020,
                           instructionCheck: 1, exerciseCheck: 1}|]
                               `shouldRespondWith` "{\"result\":\"success\",\"id\":4}" {matchStatus = 200}
+          describe "POST addAppointment" $
+                do it "Test if addAppointment Works with {title: \"Test\" ,type: \"Übung\", day: 27, \
+                            \ month: 9, year: 2017, hour: 19, minute: 0, members: []}" $ do
+                      post "addAppointment" [J.json|{title: "Test", type: "Übung", day: 27,
+                          month: 9, year: 2017, hour: 19, minute: 0, members: []}|]
+                              `shouldRespondWith` "{\"result\":\"success\",\"id\":1}" {matchStatus = 200}
+          describe "POST addAppointment" $
+                do it "Test if addAppointment Works with {title: \"Zimmerbrand\", type: \"Einsatz\", day: 12, \
+                        \ month: 3, year: 2017, hour: 19, minute: 0, members: [\"Florian Frank\", \"Katja Wagner\"]}" $ do
+                      post "addAppointment" [J.json|{title: "Zimmerbrand", type: "Einsatz", day: 12,
+                          month: 3, year: 2017, hour: 8, minute: 33, members: ["Florian Frank", "Katja Wagner"]}|]
+                              `shouldRespondWith` "{\"result\":\"success\",\"id\":2}" {matchStatus = 200}
+          describe "POST addAppointment" $
+                do it "Test if addAppointment Works with {title: \"Schulung WBK\", type: \"Unterweisung\", day: 1, \
+                        \ month: 1, year: 2015, hour: 19, minute: 0, members: [\"Florian Frank\", \"Katja Wagner\"]}" $ do
+                      post "addAppointment" [J.json|{title: "Schulung WBK", type: "Unterweisung", day: 2,
+                          month: 1, year: 2015, hour: 19, minute: 0, members: ["Florian Frank", "Katja Wagner"]}|]
+                              `shouldRespondWith` "{\"result\":\"success\",\"id\":3}" {matchStatus = 200}
+          describe "POST addAppointment" $
+                do it "Test if addAppointment fails with an existing appointment {title: \"Zimmerbrand\", type: \"Einsatz\", day: 12, \
+                    \ month: 3, year: 2017, hour: 19, minute: 0, members: [\"Florian Frank\", \"Katja Wagner\"]}" $ do
+                        post "addAppointment" [J.json|{title: "Zimmerbrand", type: "Einsatz", day: 12,
+                        month: 3, year: 2017, hour: 8, minute: 33, members: ["Florian Frank", "Katja Wagner"]}|]
+                          `shouldRespondWith` 500
+          describe "POST addAppointment" $
+                do it "Test if addAppointment fails with false JSON format {title: \"Zimmerbrand\" \
+                    \ day: 12, month: 3, year: 2017, hour: 19, minute: 0, members: [\"Florian Frank\", \"Katja Wagner\"]}" $ do
+                        post "addAppointment" [J.json|{title: "Zimmerbrand", day: 12, month: 3, year: 2017, hour: 8, minute: 33,
+                            members: ["Florian Frank", "Katja Wagner"]}|]
+                                `shouldRespondWith` "{\"error\":{\"code\":1,\"message\":\"Failed to parse request body as Member Data\"},\"result\":\"failure\"}"
           describe "POST deleteMember" $
                 do it "Test if deleteMember Works with {members: [{name: \"Frank\" ,surName: \"Florian\", birthDay: 31, \
                             \ birthMonth: 8, birthYear: 1993, examationDay: 4, examationMonth: 1, examationYear: 2019, \
@@ -109,17 +139,19 @@ spec =
                           birthMonth: 1, birthYear: 1993, examationDay: 4, examationMonth: 1, examationYear: 2019,
                           instructionCheck: 1, exerciseCheck: 1}]}|]
                               `shouldRespondWith` "{\"result\":\"success\",\"id\":[]}" {matchStatus = 200}
-          describe "POST addAppointment" $
-                do it "Test if addAppointment Works with {title: \"Test\" ,type: \"Übung\", day: 27, \
-                            \ month: 9, year: 2017, hour: 19, minute: 0, members: []}" $ do
-                      post "addAppointment" [J.json|{title: "Test", type: "Übung", day: 27,
-                          month: 9, year: 2017, hour: 19, minute: 0, members: []}|]
-                              `shouldRespondWith` "{\"result\":\"success\",\"id\":1}" {matchStatus = 200}
-    --      describe "POST addAppointment" $
-    --            do it "Test if addAppointment Works with {title: \"Test\" ,type: \"Uebung\", day: 27, \
-    --                        \ month: 9, year: 2017, hour: 19, minute: 0, members: [{name: \"Frank\" ,surName: \"Florian\", birthDay: 31, \
-    --                        \ birthMonth: 8, birthYear: 1993, examationDay: 22, examationMonth: 11, examationYear: 2020, \
-    --                        \ instructionCheck: 1, exerciseCheck: 1}]}" $ do
-    --                  post "addAppointment" [J.json|{title: "Test", type: "Uebung", day: 27,
-    --                      month: 9, year: 2017, hour: 19, minute: 0, members: ["Florian Frank"]}|]
-    --                            `shouldRespondWith` "{\"result\":\"success\",\"id\":1}" {matchStatus = 200}
+          describe "POST deleteAppointment" $
+                do it "Test if deleteAppointment works with {appointments: [{title: \"Test\" ,type: \"Übung\", day: 27, \
+                            \ month: 9, year: 2017, hour: 19, minute: 0, members: []}]}" $ do
+                      post "deleteAppointment" [J.json|{appointments: [{title: "Test", type: "Übung", day: 27,
+                          month: 9, year: 2017, hour: 19, minute: 0, members: []}]}|]
+                              `shouldRespondWith` "{\"result\":\"success\",\"id\":[]}" {matchStatus = 200}
+          describe "POST deleteAppointment" $
+                do it "Test if deleteAppointment works with {appointments: [{title: \"Schulung WBK\", type: \"Unterweisung\", day: 1, \
+                        \ month: 1, year: 2015, hour: 19, minute: 0, members: [\"Florian Frank\", \"Katja Wagner\"]}]}" $ do
+                      post "deleteAppointment" [J.json|{appointments: [{title: "Schulung WBK", type: "Unterweisung", day: 2,
+                          month: 1, year: 2015, hour: 19, minute: 0, members: ["Florian Frank", "Katja Wagner"]}]}|]
+                              `shouldRespondWith` "{\"result\":\"success\",\"id\":[]}" {matchStatus = 200}
+          describe "POST logoutUser" $
+                do it "Test if logout Works" $ do
+                      post "logoutUser" [J.json|{key: 0}|]
+                              `shouldRespondWith` "{\"result\":\"success\",\"id\":[]}" {matchStatus = 200}
