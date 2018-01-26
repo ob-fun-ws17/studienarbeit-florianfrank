@@ -63,7 +63,8 @@ library
                       , persistent-template
                       , configurator >=0.3
                       , resourcet >=1.1.9
-
+                      , hashable
+                      
   default-language:    Haskell2010
 
 executable Atemschutzterminplaner-exe
