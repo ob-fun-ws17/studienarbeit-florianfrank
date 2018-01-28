@@ -21,10 +21,12 @@ import           Data.Aeson       hiding (json)
 import qualified Data.Text as T
 import Data.Hashable
 
+
+
 -- | Function to run all sql querys
 runSQL :: (HasSpock m, SpockConn m ~ SqlBackend)
-    => SqlPersistT (NoLoggingT (ResourceT IO)) a
-    -> m a
+    => SqlPersistT (NoLoggingT (ResourceT IO)) a    -- ^SqlPersistHandle
+    -> m a                                          -- ^result in monad Context
 runSQL action =
     runQuery $ \conn ->
         runResourceT $ runNoLoggingT $ runSqlConn action conn
@@ -32,7 +34,7 @@ runSQL action =
 
 
 -- | add user to database
-registerUser:: DBAction ctx a
+registerUser:: DBAction ctx a -- ^Database handle (error or succes json object)
 registerUser = do
     maybeLogin <- jsonBody :: ApiAction ctx (Maybe Login)
     case maybeLogin of
@@ -43,7 +45,7 @@ registerUser = do
 
 
 -- | set insert sessionKey into database
-loginUser:: DBAction ctx a
+loginUser:: DBAction ctx a -- ^Database handle (error or succes json object)
 loginUser = do
     maybeLogin <- jsonBody :: ApiAction ctx (Maybe Login)
     case maybeLogin of
@@ -58,7 +60,7 @@ loginUser = do
 
 
 -- | remove sessionkey
-logoutUser:: DBAction ctx a
+logoutUser:: DBAction ctx a -- ^Database handle (error or succes json object)
 logoutUser = do
     maybeSessionKey <- jsonBody ::ApiAction ctx (Maybe Session)
     case maybeSessionKey of
@@ -69,7 +71,7 @@ logoutUser = do
 
 
 -- | Function to add members to database
-addMember:: DBAction ctx a
+addMember:: DBAction ctx a -- ^Database handle (error or succes json object)
 addMember = do
     maybeMember <- jsonBody :: ApiAction ctx (Maybe Member)
     case maybeMember of
@@ -80,7 +82,7 @@ addMember = do
 
 
 -- | Get all members from database
-getMembers:: DBAction ctx a
+getMembers:: DBAction ctx a -- ^Database handle (error or succes json object)
 getMembers = do
     maybeTest <- jsonBody :: ApiAction ctx (Maybe Member)
     members <- runSQL $ P.selectList [] [Asc MemberName]
@@ -88,7 +90,7 @@ getMembers = do
 
 
 -- | Delete member from database
-deleteMembers:: DBAction ctx a
+deleteMembers:: DBAction ctx a -- ^Database handle (error or succes json object)
 deleteMembers = do
     maybeMembers <- jsonBody ::ApiAction ctx (Maybe Memberlist)
     case maybeMembers of
@@ -98,7 +100,8 @@ deleteMembers = do
 
 
 -- | recursive helperfunction to delete members
-deleteMembers':: [Member] -> DBAction ctx a
+deleteMembers':: [Member]   -- ^List of members to delete
+    -> DBAction ctx a       -- ^Database handle (error or succes json object)
 deleteMembers' (x:xs) = do
     selectAndDeleteMembers (x)
     deleteMembers' (xs)
@@ -109,14 +112,15 @@ deleteMembers' [] = text ""
 
 
 -- | Select and delete member by name, surname, birthDay, birthMonth, birthYear
-selectAndDeleteMembers:: Member -> DBAction ctx a
+selectAndDeleteMembers:: Member -- ^Member to select and delete
+    -> DBAction ctx a           -- ^Database handle (error or succes json object)
 selectAndDeleteMembers (Member n sn bd bm by _ _ _ _ _) = do
     newId <- runSQL $ P.deleteBy (UniqueMember n sn bd bm by)
     json $ object ["result" .= String "success", "id" .= newId]
 
 
 -- | Function to add appointment to database
-addAppointment:: DBAction ctx a
+addAppointment:: DBAction ctx a -- ^Database handle (error or succes json object)
 addAppointment = do
     maybeAppointment <- jsonBody :: ApiAction ctx (Maybe Appointment)
     case maybeAppointment of
@@ -127,7 +131,7 @@ addAppointment = do
 
 
 -- | Function to delete appointment from database
-deleteAppointments:: DBAction ctx a
+deleteAppointments:: DBAction ctx a -- ^Database handle (error or succes json object)
 deleteAppointments = do
     maybeAppointment <- jsonBody ::ApiAction ctx (Maybe Appointmentlist)
     case maybeAppointment of
@@ -137,7 +141,8 @@ deleteAppointments = do
 
 
 -- | delete appointments recursion helper function
-deleteAppointments':: [Appointment] -> DBAction ctx a
+deleteAppointments':: [Appointment] -- ^Appointments to delete
+    -> DBAction ctx a -- ^Database handle (error or succes json object)
 deleteAppointments' (x:xs) = do
     selectAndDeleteAppointments (x)
     deleteAppointments' (xs)
@@ -148,14 +153,15 @@ deleteAppointments' [] = text ""
 
 
 -- | select appointment by title, tpye, day month, year an hour
-selectAndDeleteAppointments:: Appointment -> DBAction ctx a
+selectAndDeleteAppointments:: Appointment -- ^Appointment to select and delete
+    -> DBAction ctx a -- ^Database handle (error or succes json object)
 selectAndDeleteAppointments (Appointment ti ty d mo y h mi me) = do
     newId <- runSQL $ P.deleteBy (UniqueAppointment ti d mo y h)
     json $ object ["result" .= String "success", "id" .= newId]
 
 
 -- | udpate members
-updateMembers:: DBAction ctx a
+updateMembers:: DBAction ctx a -- ^Database handle (error or succes json object)
 updateMembers = do
     maybeMemberUpdate <- jsonBody ::ApiAction ctx (Maybe Membersupdate)
     case maybeMemberUpdate of
@@ -165,19 +171,19 @@ updateMembers = do
 
 
 -- | Helperfunction to update member
-updateMembers':: T.Text
-   -> [T.Text]
-   -> [T.Text]
-   -> DBAction ctx a
+updateMembers':: T.Text -- ^type of appointment
+   -> [T.Text]          -- ^Surnames of members
+   -> [T.Text]          -- ^Names of members
+   -> DBAction ctx a    -- ^Database handle (error or succes json object)
 updateMembers' ty (x:xs) (x2:x2s)= do
     updateMembers'' ty (x, x2)
     updateMembers' ty xs x2s
 
 
 -- | Helpfunction to update member
-updateMembers'':: T.Text
-     -> (T.Text, T.Text)
-     -> DBAction ctx a
+updateMembers'':: T.Text    -- ^Type of appointment
+     -> (T.Text, T.Text)    -- ^Tupel with name and surname
+     -> DBAction ctx a      -- ^Database handle (error or succes json object)
 updateMembers'' ty (membersurname, membername) =
         if (ty == "Übung" || ty == "Einsatz") then do
             newID <- runSQL $ P.updateWhere [MemberName ==. membername, MemberSurName ==. membersurname] [MemberExerciseCheck =. 1]
