@@ -18,7 +18,7 @@
          <div class = "mdl-layout__drawer">
             <span class = "mdl-layout-title">Atemschutzplaner</span>
             <nav class = "mdl-navigation">
-                <a class = "mdl-navigation__link" href = "index.html">Allgmeines</a>
+                <a class = "mdl-navigation__link" href = "index.html">Allgemeines</a>
                 <a class = "mdl-navigation__link" href = "installationAndConfig.html">Installation und Konfiguration</a>
                 <a class = "mdl-navigation__link" href = "technicalStructure.html">Technischer Aufbau</a>
                 <a class = "mdl-navigation__link" href = "userManual.html">Anleitung</a>
@@ -35,7 +35,7 @@
                  <h4>1. Verwendete Technologien</h4>
                  <div class="text-block">
                      Die Anwendung wurde fast ausschließlich in Haskell implementiert und wird durch die <b>Atemschutzterminplaner.cable</b>-Datei
-                     konfiguriert. Diese legt fest, welche Module zur Applikation gehören, sowie, welche externen Pakete zur Anwendung gelinkt werden müssen.
+                     konfiguriert. Diese legt fest, welche Module zur Applikation gehören, sowie welche externen Pakete zur Anwendung gelinkt werden müssen.
                      Der Kern der Anwendung ist ein Web-/RESTServer welcher mittels des <a href="https://www.spock.li">Spock Frameworks</a> implementiert wurde.
                      Für das Ablegen von Mitglieder, Terminen, Benutzern, sowie Sessionkeys für Login und Logout wird eine SQLite Datenbank eingesetzt.
                      Die Kommunikation wird durch Funktionen aus dem Paket
@@ -51,9 +51,9 @@
                     MVC (<b>M</b>odel <b>V</b>iew <b>C</b>ontroller). Im Ordner <b>Control</b> befinden sich alle zur Steuerung benötigten Module.
                     Das Kernstück bildet hierbei das Modul <b>App</b>, dieses enthält den Web- und RESTServer welcher mittels des Spock Frameworks
                     realisiert wurde. Zudem wird hier die Konfigurationsdatei ausgelesen und somit die Einstellungen des Webservers festgelegt,
-                    die Dabei möglichen Parameter werden im Modul <b>Config</b> spezifiziert.
+                    die dabei möglichen Parameter werden im Modul <b>Config</b> spezifiziert.
                     Das Modul stellt einen Webserver bereit und wechselt anhand der eingehenden HTTP-Requests die Anzeigen, welche im Ordner
-                    <b>Web/Views</b> untergebracht sind. Alle View-Module greifen Dabei auf das "Hauptmodul" <b>Home</b> zu, dieses gibt den grundsätzlichen
+                    <b>Web/Views</b> untergebracht sind. Alle View-Module greifen dabei auf das "Hauptmodul" <b>Home</b> zu, dieses gibt den grundsätzlichen
                     Aufbau aller View-Module vor.
                     Zudem wird ein RESTServer zur Verfügung gestellt, dieser nimmt Requests an und leitet diese an das Modul <b>DatabaseSrv</b> weiter.
                     In diesem Modul findet die gesamte Kommunikation mit der Sqlite Datenbank, sowie das Packen und Entpacken von JSON Paketen statt.
@@ -73,12 +73,12 @@
                         automatisierte Tests durchgeführt. Hierfür werden JSON
                         Testpakete erstellt, welche an den Server gesandt
                         werden und somit die Kommunikation mit einem User
-                        simulieren. Zudem wird die korrektheit diverser
+                        simulieren. Zudem wird die Korrektheit diverser
                         Konvertierungsfunktionen sichergestellt.
                         Hierfür wird ein <br>
                         <a href="https://travis-ci.org">Travis-CI</a>
                         Server eingesetzt, welcher bei jeder Änderung, sowie
-                        einmal Täglich das Programm compilliert und die
+                        einmal täglich das Programm compilliert und die
                         festgelegten Tests durchführt.
                         <br>
                         <br>
